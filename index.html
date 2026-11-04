@@ -84,7 +84,6 @@
         if (!DB.get('invoices')) DB.set('invoices', []);
         if (!DB.get('settings')) DB.set('settings', { theme: 'theme-classic', currency: 'تومان' });
 
-        // Apply saved theme on load
         function applySavedTheme() {
             const settings = DB.get('settings');
             const body = document.getElementById('body-root');
@@ -136,10 +135,6 @@
                                     <span class="text-2xl">📄</span>
                                     <span class="font-semibold text-sm">فاکتور جدید</span>
                                 </button>
-                                <button onclick="router.navigate('accounting')" class="bg-teal-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-teal-700 transition">
-                                    <span class="text-2xl">📊</span>
-                                    <span class="font-semibold text-sm">حسابداری ساده</span>
-                                </button>
                                 <button onclick="router.navigate('invoices-list')" class="bg-emerald-700 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-emerald-800 transition">
                                     <span class="text-2xl">📑</span>
                                     <span class="font-semibold text-sm">لیست فاکتورها</span>
@@ -163,47 +158,79 @@
                             </div>
                         </div>
                     `;
-                } else if (this.current === 'settings') {
-                    const settings = DB.get('settings') || { theme: 'theme-classic', currency: 'تومان' };
+                } else if (this.current === 'new-invoice') {
+                    const customers = DB.get('customers') || [];
+                    const invoices = DB.get('invoices') || [];
+                    const nextInvoiceNumber = 1000 + invoices.length + 1;
+
                     container.innerHTML = `
                         <div class="bg-white p-5 rounded-2xl shadow-sm space-y-5">
-                            <h2 class="text-lg font-bold text-gray-800 border-b pb-2 flex items-center gap-2">⚙️ تنظیمات برنامه و ظاهر</h2>
-
-                            <!-- Theme Selection -->
-                            <div class="space-y-2">
-                                <label class="block text-xs font-semibold text-gray-700">انتخاب پوسته و ظاهر برنامه</label>
-                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                                    <button onclick="changeTheme('theme-classic')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-classic' ? 'border-amber-600 bg-amber-50 text-amber-900' : 'bg-gray-50'}">کلاسیک (طلایی و سبز)</button>
-                                    <button onclick="changeTheme('theme-minimal-gray')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-minimal-gray' ? 'border-gray-600 bg-gray-100 text-gray-900' : 'bg-gray-50'}">مینیمال خاکستری</button>
-                                    <button onclick="changeTheme('theme-minimal-blue')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-minimal-blue' ? 'border-blue-600 bg-blue-50 text-blue-900' : 'bg-gray-50'}">مینیمال آبی</button>
-                                    <button onclick="changeTheme('theme-classic-crimson')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-classic-crimson' ? 'border-red-600 bg-red-50 text-red-900' : 'bg-gray-50'}">زرشکی کلاسیک</button>
-                                    <button onclick="changeTheme('theme-traditional-gold')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-traditional-gold' ? 'border-yellow-600 bg-yellow-50 text-yellow-900' : 'bg-gray-50'}">سنتی طلایی</button>
-                                    <button onclick="changeTheme('theme-luxurious')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-luxurious' ? 'border-amber-500 bg-gray-900 text-amber-400' : 'bg-gray-50'}">لوکس تیره</button>
+                            <h2 class="text-lg font-bold text-gray-800 border-b pb-2 flex items-center gap-2">📄 صدور فاکتور جدید</h2>
+                            
+                            <!-- Header Info -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-600 mb-1">انتخاب مشتری</label>
+                                    <select id="inv-customer" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
+                                        <option value="">انتخاب مشتری از لیست...</option>
+                                        ${customers.map(c => `<option value="${c.name}">${c.name} (${c.phone || 'بدون تلفن'})</option>`).join('')}
+                                    </select>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-600 mb-1">شماره فاکتور</label>
+                                        <input type="text" id="inv-number" value="${nextInvoiceNumber}" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-600 mb-1">وضعیت پرداخت</label>
+                                        <select id="inv-status" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
+                                            <option value="تسویه شده">تسویه شده</option>
+                                            <option value="تسویه نشده">تسویه نشده (طلب)</option>
+                                            <option value="تسویه جزئی">تسویه جزئی</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
 
-                            <!-- Currency Setting -->
-                            <div class="space-y-2">
-                                <label class="block text-xs font-semibold text-gray-700">واحد پولی پیش‌فرض</label>
-                                <select id="currency-select" onchange="saveCurrency()" class="w-full p-3 border rounded-xl text-sm outline-none focus:border-amber-600 bg-gray-50">
-                                    <option value="تومان" ${settings.currency === 'تومان' ? 'selected' : ''}>تومان</option>
-                                    <option value="ریال" ${settings.currency === 'ریال' ? 'selected' : ''}>ریال</option>
-                                    <option value="دلار" ${settings.currency === 'دلار' ? 'selected' : ''}>دلار</option>
-                                </select>
+                            <!-- Items Table / List -->
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="font-bold text-sm text-gray-700">اقلام فاکتور</h3>
+                                    <button onclick="addInvoiceRow()" class="bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium cursor-pointer hover:bg-emerald-800">+ افزودن ردیف</button>
+                                </div>
+                                <div id="invoice-rows" class="space-y-2">
+                                    <div class="flex gap-2 items-center bg-gray-50 p-2 rounded-xl border invoice-row-item">
+                                        <input type="text" placeholder="شرح کالا یا خدمات" class="flex-1 p-2 border rounded-lg text-xs bg-white item-desc">
+                                        <input type="number" value="1" min="1" placeholder="تعداد" class="w-16 p-2 border rounded-lg text-xs bg-white item-qty" oninput="calculateInvoiceTotal()">
+                                        <input type="number" value="0" min="0" placeholder="قیمت واحد" class="w-28 p-2 border rounded-lg text-xs bg-white item-price" oninput="calculateInvoiceTotal()">
+                                        <span class="text-xs font-bold text-gray-600 w-24 text-center item-sum">۰ تومان</span>
+                                        <button onclick="removeInvoiceRow(this)" class="text-red-500 px-2 font-bold cursor-pointer hover:text-red-700">×</button>
+                                    </div>
+                                </div>
                             </div>
 
-                            <!-- Support & Contact Info -->
-                            <div class="p-4 bg-gray-50 border rounded-2xl space-y-2 text-xs text-gray-700">
-                                <h3 class="font-bold text-sm text-gray-900 border-b pb-1">ارتباط با پشتیبانی</h3>
-                                <p><strong>ایمیل:</strong> <span class="font-mono">V.goldypoor@gmail.com</span></p>
-                                <p><strong>تلفن تماس:</strong> <span class="font-mono">09371226509</span></p>
+                            <!-- Totals & Summary -->
+                            <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-200/60 space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">جمع کل اقلام:</span>
+                                    <span id="sub-total-val" class="font-bold">۰ تومان</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">تخفیف (تومان):</span>
+                                    <input type="number" id="discount-val" value="0" min="0" class="w-32 p-1.5 border rounded-lg text-xs bg-white text-left outline-none focus:border-amber-600" oninput="calculateInvoiceTotal()">
+                                </div>
+                                <div class="flex justify-between text-base font-bold text-amber-900 border-t pt-2">
+                                    <span>مبلغ قابل پرداخت:</span>
+                                    <span id="final-total-val">۰ تومان</span>
+                                </div>
                             </div>
 
-                            <button onclick="router.navigate('home')" class="w-full bg-gray-200 text-gray-800 py-2.5 rounded-xl text-sm font-medium cursor-pointer">بازگشت به صفحه اصلی</button>
+                            <div class="flex gap-2 pt-2">
+                                <button onclick="saveNewInvoice()" class="flex-1 bg-amber-600 text-white py-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-amber-700 shadow-sm">ثبت و ذخیره فاکتور</button>
+                                <button onclick="router.navigate('home')" class="px-5 bg-gray-200 text-gray-800 py-3 rounded-xl text-sm font-medium cursor-pointer">انصراف</button>
+                            </div>
                         </div>
                     `;
-                } else if (this.current === 'accounting') {
-                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">حسابداری ساده</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
                 } else if (this.current === 'invoices-list') {
                     container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">لیست فاکتورها</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
                 } else if (this.current === 'customers') {
@@ -212,24 +239,97 @@
                     container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">کالا و خدمات</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
                 } else if (this.current === 'profiles') {
                     container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">پروفایل فروشنده</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
+                } else if (this.current === 'accounting') {
+                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">حسابداری ساده</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
+                } else if (this.current === 'settings') {
+                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">تنظیمات</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
                 }
             }
         };
 
-        function changeTheme(themeName) {
-            const settings = DB.get('settings') || {};
-            settings.theme = themeName;
-            DB.set('settings', settings);
-            applySavedTheme();
-            router.render();
+        // Invoice Dynamic Calculation Functions
+        function addInvoiceRow() {
+            const container = document.getElementById('invoice-rows');
+            const row = document.createElement('div');
+            row.className = 'flex gap-2 items-center bg-gray-50 p-2 rounded-xl border invoice-row-item';
+            row.innerHTML = `
+                <input type="text" placeholder="شرح کالا یا خدمات" class="flex-1 p-2 border rounded-lg text-xs bg-white item-desc">
+                <input type="number" value="1" min="1" placeholder="تعداد" class="w-16 p-2 border rounded-lg text-xs bg-white item-qty" oninput="calculateInvoiceTotal()">
+                <input type="number" value="0" min="0" placeholder="قیمت واحد" class="w-28 p-2 border rounded-lg text-xs bg-white item-price" oninput="calculateInvoiceTotal()">
+                <span class="text-xs font-bold text-gray-600 w-24 text-center item-sum">۰ تومان</span>
+                <button onclick="removeInvoiceRow(this)" class="text-red-500 px-2 font-bold cursor-pointer hover:text-red-700">×</button>
+            `;
+            container.appendChild(row);
         }
 
-        function saveCurrency() {
-            const currency = document.getElementById('currency-select').value;
-            const settings = DB.get('settings') || {};
-            settings.currency = currency;
-            DB.set('settings', settings);
-            alert('واحد پولی با موفقیت ذخیره شد.');
+        function removeInvoiceRow(btn) {
+            const rows = document.querySelectorAll('.invoice-row-item');
+            if (rows.length > 1) {
+                btn.parentElement.remove();
+                calculateInvoiceTotal();
+            } else {
+                alert('فاکتور حداقل باید دارای یک ردیف باشد.');
+            }
+        }
+
+        function calculateInvoiceTotal() {
+            let subTotal = 0;
+            const rows = document.querySelectorAll('.invoice-row-item');
+            rows.forEach(row => {
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                const sum = qty * price;
+                row.querySelector('.item-sum').innerText = sum.toLocaleString('fa-IR') + ' تومان';
+                subTotal += sum;
+            });
+
+            const discount = parseFloat(document.getElementById('discount-val').value) || 0;
+            const finalTotal = Math.max(0, subTotal - discount);
+
+            document.getElementById('sub-total-val').innerText = subTotal.toLocaleString('fa-IR') + ' تومان';
+            document.getElementById('final-total-val').innerText = finalTotal.toLocaleString('fa-IR') + ' تومان';
+        }
+
+        function saveNewInvoice() {
+            const customer = document.getElementById('inv-customer').value;
+            if (!customer) {
+                alert('لطفاً نام مشتری را انتخاب کنید.');
+                return;
+            }
+
+            const number = document.getElementById('inv-number').value.trim();
+            const status = document.getElementById('inv-status').value;
+            
+            // Calculate totals
+            let subTotal = 0;
+            const items = [];
+            const rows = document.querySelectorAll('.invoice-row-item');
+            rows.forEach(row => {
+                const desc = row.querySelector('.item-desc').value.trim() || 'خدمات / کالا';
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 1;
+                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                items.push({ desc, qty, price });
+                subTotal += (qty * price);
+            });
+
+            const discount = parseFloat(document.getElementById('discount-val').value) || 0;
+            const total = Math.max(0, subTotal - discount);
+
+            const newInvoice = {
+                id: number,
+                customer: customer,
+                date: '۱۴۰۵/۰۸/۱۴',
+                items: items,
+                total: total,
+                status: status
+            };
+
+            const invoices = DB.get('invoices') || [];
+            invoices.unshift(newInvoice);
+            DB.set('invoices', invoices);
+
+            alert('فاکتور جدید با موفقیت ثبت و ذخیره شد.');
+            router.navigate('invoices-list');
         }
 
         router.render();
