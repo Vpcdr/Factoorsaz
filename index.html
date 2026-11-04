@@ -50,7 +50,7 @@
             تاریخ امروز
         </div>
         <div class="text-left">
-            <span class="text-xs font-bold text-gray-700 block">ver 23.2</span>
+            <span class="text-xs font-bold text-gray-700 block">ver 23.3</span>
             <span class="text-[10px] text-gray-400">Pro Edition</span>
         </div>
     </header>
@@ -75,7 +75,7 @@
         <button onclick="router.navigate('home')" class="hover:text-amber-700 font-bold flex items-center gap-1 cursor-pointer bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">
             🏠 صفحه اصلی
         </button>
-        <span id="footer-version-label" class="text-[11px] text-gray-400">Factoorsaz Pro . ver 23.2</span>
+        <span id="footer-version-label" class="text-[11px] text-gray-400">Factoorsaz Pro . ver 23.3</span>
         <button onclick="router.back()" class="hover:text-amber-700 font-bold flex items-center gap-1 cursor-pointer bg-gray-100 px-3 py-1.5 rounded-xl border border-gray-200">
             ‹ بازگشت
         </button>
@@ -98,16 +98,12 @@
             {name: 'خدمات فنی', job: 'تعمیرات تخصصی', phone: '09151111111'}
         ]);
         if (!DB.get('activeProfileIndex')) DB.set('activeProfileIndex', 0);
-        if (!DB.get('customers')) DB.set('customers', [
-            {name: 'علی احمدی', phone: '09123456789', address: 'تهران، ولیعصر'},
-            {name: 'شرکت تجارت نوین', phone: '09198765432', address: 'مشهد، سجاد'}
-        ]);
+        if (!DB.get('customers')) DB.set('customers', []);
         if (!DB.get('products')) DB.set('products', [
-            {name: 'کالای نمونه ۱', code: 'P01', unit: 'عدد', buyPrice: 100000, sellPrice: 150000, stock: 25},
-            {name: 'خدمات فنی', code: 'S01', unit: 'ساعت', buyPrice: 0, sellPrice: 300000, stock: 100}
+            {name: 'کالای نمونه ۱', code: 'P01', unit: 'عدد', buyPrice: 100000, sellPrice: 150000, stock: 25}
         ]);
         if (!DB.get('invoices')) DB.set('invoices', []);
-        if (!DB.get('notes')) DB.set('notes', [{title: 'یادداشت نمونه', text: 'پیگیری فاکتور شماره ۱۰۱'}]);
+        if (!DB.get('notes')) DB.set('notes', []);
         if (!DB.get('settings')) DB.set('settings', { theme: 'theme-classic', currency: 'تومان', fontSize: 'text-sm' });
 
         function applySettings() {
@@ -229,11 +225,11 @@
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <div>
                                         <label class="block text-xs font-semibold text-gray-600 mb-1">نام فروشگاه / کسب‌وکار</label>
-                                        <input type="text" id="prof-name" value="${p.name || ''}" class="w-full p-3 border rounded-xl outline-none focus:border-amber-600" placeholder="مثلا: مولتی تعمیرات">
+                                        <input type="text" id="prof-name" value="${p.name || ''}" class="w-full p-3 border rounded-xl outline-none focus:border-amber-600" placeholder="مثلا: فروشگاه مرکزی">
                                     </div>
                                     <div>
                                         <label class="block text-xs font-semibold text-gray-600 mb-1">حوزه فعالیت / شغل</label>
-                                        <input type="text" id="prof-job" value="${p.job || ''}" class="w-full p-3 border rounded-xl outline-none focus:border-amber-600" placeholder="مثلا: تعمیرات تخصصی">
+                                        <input type="text" id="prof-job" value="${p.job || ''}" class="w-full p-3 border rounded-xl outline-none focus:border-amber-600" placeholder="مثلا: لوازم و خدمات">
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -424,7 +420,7 @@
                                 <div class="space-y-2">
                                     <label class="block text-xs font-semibold text-gray-600">انتخاب مشتری یا ورود نام جدید</label>
                                     <select id="inv-customer-select" onchange="onCustomerSelectChange()" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
-                                        <option value="">-- انتخاب از مشتریان قبلی --</option>
+                                        <option value="">-- انتخاب از مشتریان ثبت شده --</option>
                                         ${customers.map(c => `<option value="${c.name}">${c.name} (${c.phone || 'بدون تلفن'})</option>`).join('')}
                                     </select>
                                     <input type="text" id="inv-customer-name" placeholder="یا نام مشتری را دستی وارد کنید..." class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
@@ -602,7 +598,7 @@
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
                                 <button onclick="downloadPDF()" class="bg-amber-600 text-white py-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-amber-700 shadow-sm">📥 دانلود PDF</button>
                                 <button onclick="printThermal()" class="bg-indigo-600 text-white py-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-indigo-700 shadow-sm">🖨️ چاپ حرارتی</button>
-                                <button onclick="shareWhatsApp()" class="bg-emerald-600 text-white py-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-emerald-700 shadow-sm">💬 پیامک / واتساپ</button>
+                                <button onclick="shareWhatsApp()" class="bg-emerald-600 text-white py-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-emerald-700 shadow-sm">💬 واتساپ</button>
                                 <button onclick="router.back()" class="bg-gray-200 text-gray-800 py-3 rounded-xl text-sm font-medium cursor-pointer">بازگشت</button>
                             </div>
                         </div>
@@ -647,19 +643,26 @@
                                 <button onclick="openNoteModal()" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">+ یادداشت جدید</button>
                             </div>
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                ${notes.length === 0 ? '<p class="text-xs text-gray-400 col-span-2 text-center py-6">هیچ یادداشتی ثبت نشده است.</p>' : ''}
                                 ${notes.map((n, i) => `
-                                    <div class="bg-indigo-50/50 border border-indigo-100 p-4 rounded-xl space-y-2">
+                                    <div class="bg-indigo-50/50 border border-indigo-100 p-4 rounded-2xl space-y-2">
                                         <h3 class="font-bold text-sm text-indigo-900">${n.title}</h3>
                                         <p class="text-xs text-gray-700">${n.text}</p>
-                                        <div class="text-left"><button onclick="deleteNote(${i})" class="text-red-600 text-[11px] cursor-pointer">حذف</button></div>
+                                        <div class="flex justify-end gap-2 pt-2 border-t border-indigo-100/60">
+                                            <button onclick="shareNote(${i})" class="text-emerald-700 text-[11px] font-medium cursor-pointer">اشتراک‌گذاری</button>
+                                            <button onclick="openNoteModal(${i})" class="text-blue-600 text-[11px] font-medium cursor-pointer">ویرایش</button>
+                                            <button onclick="deleteNote(${i})" class="text-red-600 text-[11px] font-medium cursor-pointer">حذف</button>
+                                        </div>
                                     </div>
                                 `).join('')}
                             </div>
                         </div>
 
+                        <!-- Note Modal -->
                         <div id="note-modal" class="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 hidden z-50">
                             <div class="bg-white w-full max-w-md p-5 rounded-2xl shadow-xl space-y-4">
-                                <h3 class="font-bold text-base text-gray-800 border-b pb-2">یادداشت جدید</h3>
+                                <h3 id="note-modal-title" class="font-bold text-base text-gray-800 border-b pb-2">یادداشت جدید</h3>
+                                <input type="hidden" id="edit-note-index" value="-1">
                                 <div class="space-y-3 text-sm">
                                     <div><label class="block text-xs text-gray-600 mb-1">موضوع / عنوان</label><input type="text" id="note-title" class="w-full p-3 border rounded-xl outline-none focus:border-indigo-600"></div>
                                     <div><label class="block text-xs text-gray-600 mb-1">متن یادداشت</label><textarea id="note-text" class="w-full p-3 border rounded-xl outline-none focus:border-indigo-600" rows="3"></textarea></div>
@@ -675,7 +678,7 @@
                     container.innerHTML = `
                         <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
                             <h2 class="text-lg font-bold text-gray-800 border-b pb-2">💾 پشتیبان‌گیری و بازیابی اطلاعات</h2>
-                            <p class="text-xs text-gray-600">شما می‌توانید از تمامی اطلاعات برنامه (فاکتورها، مشتریان، کالاها و پروفایل‌ها) فایل پشتیبان تهیه کنید یا اطلاعات قبلی را بازیابی کنید.</p>
+                            <p class="text-xs text-gray-600">شما می‌توانید از تمامی اطلاعات برنامه فایل پشتیبان تهیه کنید یا اطلاعات قبلی را بازیابی کنید.</p>
                             <div class="flex flex-col sm:flex-row gap-3 pt-3">
                                 <button onclick="exportData()" class="bg-emerald-600 text-white p-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-emerald-700 shadow-sm">📥 دانلود فایل پشتیبان (JSON)</button>
                                 <label class="bg-blue-600 text-white p-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-blue-700 text-center shadow-sm">
@@ -952,7 +955,6 @@
             if (!custName && selectVal) custName = selectVal;
             if (!custName) { alert('لطفاً نام مشتری را مشخص کنید.'); return; }
 
-            // Add new customer if not exists
             const customers = DB.get('customers') || [];
             if (!customers.some(c => c.name === custName)) {
                 customers.push({ name: custName, phone: custPhone, address: '-' });
@@ -969,7 +971,6 @@
                 const qty = parseFloat(row.querySelector('.item-qty').value) || 1;
                 const price = parseFloat(row.querySelector('.item-price').value) || 0;
 
-                // Smart Inventory Deduction
                 const prod = products.find(p => p.name === desc);
                 if (prod) {
                     if (prod.stock < qty) {
@@ -1034,22 +1035,54 @@
             router.render();
         }
 
-        function openNoteModal() { document.getElementById('note-modal').classList.remove('hidden'); }
+        function openNoteModal(index = -1) {
+            document.getElementById('edit-note-index').value = index;
+            const modal = document.getElementById('note-modal');
+            const titleEl = document.getElementById('note-modal-title');
+            if (index >= 0) {
+                const note = (DB.get('notes') || [])[index];
+                titleEl.innerText = 'ویرایش یادداشت';
+                document.getElementById('note-title').value = note.title || '';
+                document.getElementById('note-text').value = note.text || '';
+            } else {
+                titleEl.innerText = 'یادداشت جدید';
+                document.getElementById('note-title').value = '';
+                document.getElementById('note-text').value = '';
+            }
+            modal.classList.remove('hidden');
+        }
+
         function saveNote() {
+            const index = parseInt(document.getElementById('edit-note-index').value);
             const title = document.getElementById('note-title').value.trim();
             const text = document.getElementById('note-text').value.trim();
-            if (!title) return;
+            if (!title) { alert('موضوع یادداشت الزامی است.'); return; }
+            
             const notes = DB.get('notes') || [];
-            notes.push({ title, text });
+            if (index >= 0) {
+                notes[index] = { title, text };
+            } else {
+                notes.push({ title, text });
+            }
             DB.set('notes', notes);
             document.getElementById('note-modal').classList.add('hidden');
             router.render();
         }
+
         function deleteNote(i) {
-            const notes = DB.get('notes') || [];
-            notes.splice(i, 1);
-            DB.set('notes', notes);
-            router.render();
+            if (confirm('حذف یادداشت؟')) {
+                const notes = DB.get('notes') || [];
+                notes.splice(i, 1);
+                DB.set('notes', notes);
+                router.render();
+            }
+        }
+
+        function shareNote(i) {
+            const note = (DB.get('notes') || [])[i];
+            if (!note) return;
+            const text = encodeURIComponent(`📌 یادداشت: ${note.title}\n\n${note.text}`);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 
         function downloadPDF() {
@@ -1071,7 +1104,7 @@
             win.print();
         }
         function shareWhatsApp() {
-            const text = encodeURIComponent('سلام، فاکتور خرید شما از فروشگاه صادر شد. با تشکر از خرید شما.');
+            const text = encodeURIComponent('سلام، فاکتور خرید شما صادر شد. با تشکر از اعتماد شما.');
             window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 
