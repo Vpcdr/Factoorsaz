@@ -20,12 +20,18 @@
             color: var(--text-color, #1f2937);
         }
         .theme-classic { --bg-color: #F5F1E8; --primary-color: #B78C2E; --secondary-color: #0F4C3C; }
+        .theme-minimal-gray { --bg-color: #f3f4f6; --primary-color: #4b5563; --secondary-color: #1f2937; }
+        .theme-minimal-blue { --bg-color: #eff6ff; --primary-color: #3b82f6; --secondary-color: #1e3a8a; }
+        .theme-classic-crimson { --bg-color: #fdf2f2; --primary-color: #991b1b; --secondary-color: #7f1d1d; }
+        .theme-traditional-gold { --bg-color: #fefce8; --primary-color: #ca8a04; --secondary-color: #1e3a8a; }
+        .theme-luxurious { --bg-color: #111827; --primary-color: #d97706; --secondary-color: #374151; color: #f9fafb; }
+        
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
         ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
     </style>
 </head>
-<body class="theme-classic min-h-screen flex flex-col justify-between selection:bg-amber-200">
+<body id="body-root" class="theme-classic min-h-screen flex flex-col justify-between selection:bg-amber-200">
 
     <!-- Top Header -->
     <header class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-40 px-4 py-3 flex items-center justify-between shadow-xs">
@@ -70,7 +76,22 @@
             }
         };
 
+        // Initialize DB items
         if (!DB.get('profiles')) DB.set('profiles', [{}, {}]);
+        if (!DB.get('activeProfileIndex')) DB.set('activeProfileIndex', 0);
+        if (!DB.get('customers')) DB.set('customers', [{name: 'علی احمدی', phone: '09123456789'}]);
+        if (!DB.get('products')) DB.set('products', [{name: 'محصول نمونه', sellPrice: 150000, stock: 10}]);
+        if (!DB.get('invoices')) DB.set('invoices', []);
+        if (!DB.get('settings')) DB.set('settings', { theme: 'theme-classic', currency: 'تومان' });
+
+        // Apply saved theme on load
+        function applySavedTheme() {
+            const settings = DB.get('settings');
+            const body = document.getElementById('body-root');
+            if (body && settings && settings.theme) {
+                body.className = `${settings.theme} min-h-screen flex flex-col justify-between selection:bg-amber-200`;
+            }
+        }
 
         function getShamsiToday() {
             try {
@@ -98,10 +119,11 @@
                 }
             },
             render() {
+                applySavedTheme();
                 const container = document.getElementById('app-container');
                 if (this.current === 'home') {
                     container.innerHTML = `
-                        <div class="space-y-4">
+                        <div class="space-y-4 animate-fadeIn">
                             <div class="bg-gradient-to-r from-amber-500 to-amber-700 text-white p-4 rounded-2xl shadow-md flex items-center justify-between">
                                 <div>
                                     <h2 class="font-bold text-lg">خوش آمدید!</h2>
@@ -110,38 +132,106 @@
                                 <span class="text-3xl">💼</span>
                             </div>
                             <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                                <button onclick="router.navigate('profiles')" class="bg-cyan-700 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer">
-                                    <span class="text-2xl">👤</span>
-                                    <span class="font-semibold text-sm">پروفایل فروشنده</span>
-                                </button>
-                                <button onclick="alert('سایر بخش‌ها آماده اتصال است.')" class="bg-amber-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer">
+                                <button onclick="router.navigate('new-invoice')" class="bg-amber-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-amber-700 transition">
                                     <span class="text-2xl">📄</span>
                                     <span class="font-semibold text-sm">فاکتور جدید</span>
                                 </button>
+                                <button onclick="router.navigate('accounting')" class="bg-teal-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-teal-700 transition">
+                                    <span class="text-2xl">📊</span>
+                                    <span class="font-semibold text-sm">حسابداری ساده</span>
+                                </button>
+                                <button onclick="router.navigate('invoices-list')" class="bg-emerald-700 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-emerald-800 transition">
+                                    <span class="text-2xl">📑</span>
+                                    <span class="font-semibold text-sm">لیست فاکتورها</span>
+                                </button>
+                                <button onclick="router.navigate('customers')" class="bg-blue-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-blue-700 transition">
+                                    <span class="text-2xl">👥</span>
+                                    <span class="font-semibold text-sm">مشتریان</span>
+                                </button>
+                                <button onclick="router.navigate('products')" class="bg-purple-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-purple-700 transition">
+                                    <span class="text-2xl">📦</span>
+                                    <span class="font-semibold text-sm">کالا و خدمات</span>
+                                </button>
+                                <button onclick="router.navigate('profiles')" class="bg-cyan-700 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-cyan-800 transition">
+                                    <span class="text-2xl">👤</span>
+                                    <span class="font-semibold text-sm">پروفایل فروشنده</span>
+                                </button>
+                                <button onclick="router.navigate('settings')" class="bg-gray-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-gray-700 transition">
+                                    <span class="text-2xl">⚙️</span>
+                                    <span class="font-semibold text-sm">تنظیمات و پوسته‌ها</span>
+                                </button>
                             </div>
                         </div>
                     `;
-                } else if (this.current === 'profiles') {
+                } else if (this.current === 'settings') {
+                    const settings = DB.get('settings') || { theme: 'theme-classic', currency: 'تومان' };
                     container.innerHTML = `
-                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
-                            <h2 class="text-lg font-bold">👤 پروفایل فروشنده (۲ تب مجزا)</h2>
-                            <div class="flex gap-2 border-b pb-3">
-                                <button class="px-4 py-2 rounded-xl bg-amber-600 text-white font-medium text-sm">پروفایل ۱</button>
-                                <button class="px-4 py-2 rounded-xl bg-gray-100 text-gray-700 font-medium text-sm">پروفایل ۲</button>
-                            </div>
-                            <div class="space-y-3">
-                                <div>
-                                    <label class="block text-xs font-semibold text-gray-600 mb-1">نام فروشگاه / کسب‌وکار</label>
-                                    <input type="text" id="prof-name" class="w-full p-3 border rounded-xl text-sm outline-none focus:border-amber-600" placeholder="نام فروشگاه...">
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-5">
+                            <h2 class="text-lg font-bold text-gray-800 border-b pb-2 flex items-center gap-2">⚙️ تنظیمات برنامه و ظاهر</h2>
+
+                            <!-- Theme Selection -->
+                            <div class="space-y-2">
+                                <label class="block text-xs font-semibold text-gray-700">انتخاب پوسته و ظاهر برنامه</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                    <button onclick="changeTheme('theme-classic')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-classic' ? 'border-amber-600 bg-amber-50 text-amber-900' : 'bg-gray-50'}">کلاسیک (طلایی و سبز)</button>
+                                    <button onclick="changeTheme('theme-minimal-gray')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-minimal-gray' ? 'border-gray-600 bg-gray-100 text-gray-900' : 'bg-gray-50'}">مینیمال خاکستری</button>
+                                    <button onclick="changeTheme('theme-minimal-blue')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-minimal-blue' ? 'border-blue-600 bg-blue-50 text-blue-900' : 'bg-gray-50'}">مینیمال آبی</button>
+                                    <button onclick="changeTheme('theme-classic-crimson')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-classic-crimson' ? 'border-red-600 bg-red-50 text-red-900' : 'bg-gray-50'}">زرشکی کلاسیک</button>
+                                    <button onclick="changeTheme('theme-traditional-gold')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-traditional-gold' ? 'border-yellow-600 bg-yellow-50 text-yellow-900' : 'bg-gray-50'}">سنتی طلایی</button>
+                                    <button onclick="changeTheme('theme-luxurious')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-luxurious' ? 'border-amber-500 bg-gray-900 text-amber-400' : 'bg-gray-50'}">لوکس تیره</button>
                                 </div>
-                                <button onclick="alert('ذخیره شد!')" class="w-full bg-amber-600 text-white py-3 rounded-xl font-bold cursor-pointer">ذخیره پروفایل</button>
                             </div>
-                            <button onclick="router.navigate('home')" class="w-full bg-gray-200 text-gray-800 py-2 rounded-xl text-sm cursor-pointer">بازگشت</button>
+
+                            <!-- Currency Setting -->
+                            <div class="space-y-2">
+                                <label class="block text-xs font-semibold text-gray-700">واحد پولی پیش‌فرض</label>
+                                <select id="currency-select" onchange="saveCurrency()" class="w-full p-3 border rounded-xl text-sm outline-none focus:border-amber-600 bg-gray-50">
+                                    <option value="تومان" ${settings.currency === 'تومان' ? 'selected' : ''}>تومان</option>
+                                    <option value="ریال" ${settings.currency === 'ریال' ? 'selected' : ''}>ریال</option>
+                                    <option value="دلار" ${settings.currency === 'دلار' ? 'selected' : ''}>دلار</option>
+                                </select>
+                            </div>
+
+                            <!-- Support & Contact Info -->
+                            <div class="p-4 bg-gray-50 border rounded-2xl space-y-2 text-xs text-gray-700">
+                                <h3 class="font-bold text-sm text-gray-900 border-b pb-1">ارتباط با پشتیبانی</h3>
+                                <p><strong>ایمیل:</strong> <span class="font-mono">V.goldypoor@gmail.com</span></p>
+                                <p><strong>تلفن تماس:</strong> <span class="font-mono">09371226509</span></p>
+                            </div>
+
+                            <button onclick="router.navigate('home')" class="w-full bg-gray-200 text-gray-800 py-2.5 rounded-xl text-sm font-medium cursor-pointer">بازگشت به صفحه اصلی</button>
                         </div>
                     `;
+                } else if (this.current === 'accounting') {
+                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">حسابداری ساده</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
+                } else if (this.current === 'invoices-list') {
+                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">لیست فاکتورها</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
+                } else if (this.current === 'customers') {
+                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">مشتریان</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
+                } else if (this.current === 'products') {
+                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">کالا و خدمات</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
+                } else if (this.current === 'profiles') {
+                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">پروفایل فروشنده</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
                 }
             }
         };
+
+        function changeTheme(themeName) {
+            const settings = DB.get('settings') || {};
+            settings.theme = themeName;
+            DB.set('settings', settings);
+            applySavedTheme();
+            router.render();
+        }
+
+        function saveCurrency() {
+            const currency = document.getElementById('currency-select').value;
+            const settings = DB.get('settings') || {};
+            settings.currency = currency;
+            DB.set('settings', settings);
+            alert('واحد پولی با موفقیت ذخیره شد.');
+        }
+
         router.render();
     </script>
 </body>
