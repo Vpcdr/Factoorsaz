@@ -53,16 +53,30 @@
         </div>
     </header>
 
+    <!-- Sub-Header Top Navigation (Visible in sub-pages) -->
+    <nav id="top-nav-bar" class="bg-amber-100/60 border-b border-amber-200/80 px-4 py-2 flex justify-between items-center text-xs font-bold text-amber-900 hidden">
+        <button onclick="router.back()" class="hover:text-amber-700 flex items-center gap-1 cursor-pointer bg-white/80 px-3 py-1 rounded-lg border border-amber-200 shadow-2xs">
+            ‹ بازگشت
+        </button>
+        <button onclick="router.navigate('home')" class="hover:text-amber-700 flex items-center gap-1 cursor-pointer bg-white/80 px-3 py-1 rounded-lg border border-amber-200 shadow-2xs">
+            🏠 صفحه اصلی
+        </button>
+    </nav>
+
     <!-- Main Container -->
     <main id="app-container" class="flex-1 max-w-4xl w-full mx-auto p-4 pb-20">
         <!-- Dynamic Views -->
     </main>
 
-    <!-- Bottom Navigation -->
-    <footer class="bg-white/90 backdrop-blur-md border-t border-gray-200 py-2 px-4 text-center text-xs text-gray-500 fixed bottom-0 left-0 right-0 z-30 flex justify-between items-center shadow-lg">
-        <button onclick="router.navigate('home')" class="hover:text-amber-700 font-medium flex items-center gap-1 cursor-pointer">🏠 صفحه اصلی</button>
-        <span id="footer-version-label">Created by Grok . ver 23.1</span>
-        <button onclick="router.back()" class="hover:text-amber-700 font-medium flex items-center gap-1 cursor-pointer">‹ بازگشت</button>
+    <!-- Bottom Navigation Bar -->
+    <footer class="bg-white/90 backdrop-blur-md border-t border-gray-200 py-2 px-4 text-center text-xs text-gray-600 fixed bottom-0 left-0 right-0 z-30 flex justify-between items-center shadow-lg">
+        <button onclick="router.navigate('home')" class="hover:text-amber-700 font-bold flex items-center gap-1 cursor-pointer bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">
+            🏠 صفحه اصلی
+        </button>
+        <span id="footer-version-label" class="text-[11px] text-gray-400">Created by Grok . ver 23.1</span>
+        <button onclick="router.back()" class="hover:text-amber-700 font-bold flex items-center gap-1 cursor-pointer bg-gray-100 px-3 py-1.5 rounded-xl border border-gray-200">
+            ‹ بازگشت
+        </button>
     </footer>
 
     <script>
@@ -79,7 +93,7 @@
         // Initialize DB items
         if (!DB.get('profiles')) DB.set('profiles', [{}, {}]);
         if (!DB.get('activeProfileIndex')) DB.set('activeProfileIndex', 0);
-        if (!DB.get('customers')) DB.set('customers', [{name: 'علی احمدی', phone: '09123456789'}]);
+        if (!DB.get('customers')) DB.set('customers', [{name: 'علی احمدی', phone: '09123456789', address: 'تهران'}]);
         if (!DB.get('products')) DB.set('products', [{name: 'محصول نمونه', sellPrice: 150000, stock: 10}]);
         if (!DB.get('invoices')) DB.set('invoices', []);
         if (!DB.get('settings')) DB.set('settings', { theme: 'theme-classic', currency: 'تومان' });
@@ -101,25 +115,42 @@
         }
         document.getElementById('shamsi-date-box').innerText = getShamsiToday();
 
+        // Mobile Hardware Back Button Router Integration
         const router = {
             history: ['home'],
             current: 'home',
-            navigate(viewName) {
-                this.history.push(viewName);
+            currentParams: {},
+            navigate(viewName, params = {}, isPopState = false) {
+                if (!isPopState) {
+                    this.history.push(viewName);
+                    window.history.pushState({ view: viewName, params: params }, '', `#${viewName}`);
+                }
                 this.current = viewName;
+                this.currentParams = params;
                 this.render();
                 window.scrollTo(0, 0);
             },
             back() {
                 if (this.history.length > 1) {
-                    this.history.pop();
-                    this.current = this.history[this.history.length - 1];
-                    this.render();
+                    window.history.back();
+                } else {
+                    if (confirm('می‌خواهید از برنامه خارج شوید؟')) {
+                        window.close();
+                    }
                 }
             },
             render() {
                 applySavedTheme();
                 const container = document.getElementById('app-container');
+                const topNav = document.getElementById('top-nav-bar');
+                
+                // Show/Hide top navbar for sub-pages
+                if (this.current === 'home') {
+                    topNav.classList.add('hidden');
+                } else {
+                    topNav.classList.remove('hidden');
+                }
+
                 if (this.current === 'home') {
                     container.innerHTML = `
                         <div class="space-y-4 animate-fadeIn">
@@ -165,9 +196,11 @@
 
                     container.innerHTML = `
                         <div class="bg-white p-5 rounded-2xl shadow-sm space-y-5">
-                            <h2 class="text-lg font-bold text-gray-800 border-b pb-2 flex items-center gap-2">📄 صدور فاکتور جدید</h2>
+                            <h2 class="text-lg font-bold text-gray-800 border-b pb-2 flex items-center justify-between">
+                                <span class="flex items-center gap-2">📄 صدور فاکتور جدید</span>
+                                <button onclick="router.navigate('home')" class="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-lg text-gray-700 cursor-pointer">🏠 صفحه اصلی</button>
+                            </h2>
                             
-                            <!-- Header Info -->
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
                                     <label class="block text-xs font-semibold text-gray-600 mb-1">انتخاب مشتری</label>
@@ -192,7 +225,6 @@
                                 </div>
                             </div>
 
-                            <!-- Items Table / List -->
                             <div class="space-y-3">
                                 <div class="flex justify-between items-center">
                                     <h3 class="font-bold text-sm text-gray-700">اقلام فاکتور</h3>
@@ -209,7 +241,6 @@
                                 </div>
                             </div>
 
-                            <!-- Totals & Summary -->
                             <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-200/60 space-y-2 text-sm">
                                 <div class="flex justify-between">
                                     <span class="text-gray-600">جمع کل اقلام:</span>
@@ -227,27 +258,232 @@
 
                             <div class="flex gap-2 pt-2">
                                 <button onclick="saveNewInvoice()" class="flex-1 bg-amber-600 text-white py-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-amber-700 shadow-sm">ثبت و ذخیره فاکتور</button>
-                                <button onclick="router.navigate('home')" class="px-5 bg-gray-200 text-gray-800 py-3 rounded-xl text-sm font-medium cursor-pointer">انصراف</button>
+                                <button onclick="router.back()" class="px-5 bg-gray-200 text-gray-800 py-3 rounded-xl text-sm font-medium cursor-pointer">انصراف / بازگشت</button>
                             </div>
                         </div>
                     `;
                 } else if (this.current === 'invoices-list') {
-                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">لیست فاکتورها</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
+                    const invoices = DB.get('invoices') || [];
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">📑 لیست فاکتورها</h2>
+                                <button onclick="router.navigate('new-invoice')" class="bg-amber-600 text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer hover:bg-amber-700">+ فاکتور جدید</button>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-right text-xs">
+                                    <thead>
+                                        <tr class="bg-gray-100 text-gray-600 border-b">
+                                            <th class="p-3">شماره</th>
+                                            <th class="p-3">مشتری</th>
+                                            <th class="p-3">تاریخ</th>
+                                            <th class="p-3">مبلغ کل</th>
+                                            <th class="p-3">وضعیت</th>
+                                            <th class="p-3 text-center">عملیات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${invoices.map((inv, index) => `
+                                            <tr class="border-b hover:bg-gray-50 transition">
+                                                <td class="p-3 font-bold text-gray-800">#${inv.id || 1000 + index}</td>
+                                                <td class="p-3 font-semibold text-gray-700">${inv.customer}</td>
+                                                <td class="p-3 text-gray-500">${inv.date || '۱۴۰۵/۰۸/۱۴'}</td>
+                                                <td class="p-3 font-bold text-emerald-700">${Number(inv.total || 0).toLocaleString('fa-IR')} تومان</td>
+                                                <td class="p-3"><span class="px-2 py-1 rounded-full text-[10px] ${inv.status === 'تسویه شده' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${inv.status || 'تسویه نشده'}</span></td>
+                                                <td class="p-3 text-center space-x-2 space-x-reverse">
+                                                    <button onclick="router.navigate('preview-invoice', { index: ${index} })" class="text-blue-600 hover:underline cursor-pointer">پیش‌نمایش و دانلود</button>
+                                                    <button onclick="deleteInvoice(${index})" class="text-red-600 hover:underline cursor-pointer">حذف</button>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button onclick="router.back()" class="w-full bg-gray-200 text-gray-800 py-2.5 rounded-xl text-sm font-medium cursor-pointer">‹ بازگشت به صفحه قبلی</button>
+                        </div>
+                    `;
                 } else if (this.current === 'customers') {
-                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">مشتریان</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
+                    const customers = DB.get('customers') || [];
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">👥 مدیریت مشتریان</h2>
+                                <button onclick="router.navigate('home')" class="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-lg text-gray-700 cursor-pointer">🏠 صفحه اصلی</button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-right text-xs">
+                                    <thead>
+                                        <tr class="bg-gray-100 text-gray-600 border-b">
+                                            <th class="p-3">نام مشتری</th>
+                                            <th class="p-3">شماره موبایل</th>
+                                            <th class="p-3">آدرس</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${customers.map(c => `
+                                            <tr class="border-b">
+                                                <td class="p-3 font-bold">${c.name}</td>
+                                                <td class="p-3">${c.phone || '-'}</td>
+                                                <td class="p-3">${c.address || '-'}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button onclick="router.back()" class="w-full bg-gray-200 text-gray-800 py-2.5 rounded-xl text-sm font-medium cursor-pointer">‹ بازگشت</button>
+                        </div>
+                    `;
                 } else if (this.current === 'products') {
-                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">کالا و خدمات</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
+                    const products = DB.get('products') || [];
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">📦 کالا و خدمات</h2>
+                                <button onclick="router.navigate('home')" class="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-lg text-gray-700 cursor-pointer">🏠 صفحه اصلی</button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-right text-xs">
+                                    <thead>
+                                        <tr class="bg-gray-100 text-gray-600 border-b">
+                                            <th class="p-3">نام کالا</th>
+                                            <th class="p-3">قیمت فروش</th>
+                                            <th class="p-3">موجودی</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${products.map(p => `
+                                            <tr class="border-b">
+                                                <td class="p-3 font-bold">${p.name}</td>
+                                                <td class="p-3">${Number(p.sellPrice || 0).toLocaleString('fa-IR')} تومان</td>
+                                                <td class="p-3 font-bold text-blue-600">${p.stock || 0}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button onclick="router.back()" class="w-full bg-gray-200 text-gray-800 py-2.5 rounded-xl text-sm font-medium cursor-pointer">‹ بازگشت</button>
+                        </div>
+                    `;
                 } else if (this.current === 'profiles') {
-                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">پروفایل فروشنده</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
-                } else if (this.current === 'accounting') {
-                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">حسابداری ساده</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <h2 class="text-lg font-bold text-gray-800">👤 پروفایل فروشنده</h2>
+                                <button onclick="router.navigate('home')" class="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-lg text-gray-700 cursor-pointer">🏠 صفحه اصلی</button>
+                            </div>
+                            <p class="text-xs text-gray-600">اطلاعات کسب‌وکار و مهر فروشنده در این بخش مدیریت می‌شود.</p>
+                            <button onclick="router.back()" class="w-full bg-gray-200 text-gray-800 py-2.5 rounded-xl text-sm font-medium cursor-pointer">‹ بازگشت</button>
+                        </div>
+                    `;
                 } else if (this.current === 'settings') {
-                    container.innerHTML = `<div class="bg-white p-5 rounded-2xl shadow-sm space-y-4"><h2 class="text-lg font-bold">تنظیمات</h2><button onclick="router.navigate('home')" class="bg-gray-200 px-4 py-2 rounded-xl text-sm">بازگشت</button></div>`;
+                    const settings = DB.get('settings') || { theme: 'theme-classic', currency: 'تومان' };
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-5">
+                            <div class="flex justify-between items-center border-b pb-2">
+                                <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">⚙️ تنظیمات برنامه و ظاهر</h2>
+                                <button onclick="router.navigate('home')" class="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-lg text-gray-700 cursor-pointer">🏠 صفحه اصلی</button>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="block text-xs font-semibold text-gray-700">انتخاب پوسته برنامه</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                    <button onclick="changeTheme('theme-classic')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-classic' ? 'border-amber-600 bg-amber-50 text-amber-900' : 'bg-gray-50'}">کلاسیک</button>
+                                    <button onclick="changeTheme('theme-minimal-gray')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-minimal-gray' ? 'border-gray-600 bg-gray-100 text-gray-900' : 'bg-gray-50'}">مینیمال خاکستری</button>
+                                    <button onclick="changeTheme('theme-minimal-blue')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-minimal-blue' ? 'border-blue-600 bg-blue-50 text-blue-900' : 'bg-gray-50'}">مینیمال آبی</button>
+                                    <button onclick="changeTheme('theme-classic-crimson')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-classic-crimson' ? 'border-red-600 bg-red-50 text-red-900' : 'bg-gray-50'}">زرشکی</button>
+                                    <button onclick="changeTheme('theme-traditional-gold')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-traditional-gold' ? 'border-yellow-600 bg-yellow-50 text-yellow-900' : 'bg-gray-50'}">سنتی</button>
+                                    <button onclick="changeTheme('theme-luxurious')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer transition ${settings.theme === 'theme-luxurious' ? 'border-amber-500 bg-gray-900 text-amber-400' : 'bg-gray-50'}">لوکس تیره</button>
+                                </div>
+                            </div>
+                            <button onclick="router.back()" class="w-full bg-gray-200 text-gray-800 py-2.5 rounded-xl text-sm font-medium cursor-pointer">‹ بازگشت</button>
+                        </div>
+                    `;
+                } else if (this.current === 'preview-invoice') {
+                    const invoices = DB.get('invoices') || [];
+                    const idx = this.currentParams.index !== undefined ? this.currentParams.index : 0;
+                    const inv = invoices[idx] || { id: '1001', customer: 'مشتری نمونه', total: 0, items: [] };
+                    
+                    const profiles = DB.get('profiles') || [{}, {}];
+                    const activeIdx = DB.get('activeProfileIndex') || 0;
+                    const seller = profiles[activeIdx] || {};
+
+                    container.innerHTML = `
+                        <div class="space-y-4">
+                            <div id="printable-invoice-card" class="bg-white p-6 rounded-2xl border shadow-md space-y-4 text-xs">
+                                <div class="bg-emerald-700 text-white p-3 rounded-xl flex justify-between items-center">
+                                    <div>
+                                        <h2 class="font-bold text-base">${seller.name || 'فروشگاه آنلاین'}</h2>
+                                        <p class="text-[10px] text-emerald-100">${seller.job || 'ارائه‌دهنده خدمات و کالا'}</p>
+                                    </div>
+                                    <div class="text-left">
+                                        <span class="block font-bold">فاکتور فروش #${inv.id}</span>
+                                        <span class="text-[10px] opacity-80">${inv.date || '۱۴۰۵/۰۸/۱۴'}</span>
+                                    </div>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-3 border p-3 rounded-xl bg-gray-50/50">
+                                    <div>
+                                        <span class="block font-bold text-gray-700">فروشنده:</span>
+                                        <p class="text-gray-600">${seller.name || 'نامشخص'}</p>
+                                    </div>
+                                    <div>
+                                        <span class="block font-bold text-gray-700">خریدار:</span>
+                                        <p class="text-gray-600">${inv.customer || 'مشتری عمومی'}</p>
+                                    </div>
+                                </div>
+
+                                <table class="w-full text-right border-collapse">
+                                    <thead>
+                                        <tr class="bg-gray-100 border-b">
+                                            <th class="p-2 border">ردیف</th>
+                                            <th class="p-2 border">شرح کالا / خدمات</th>
+                                            <th class="p-2 border">تعداد</th>
+                                            <th class="p-2 border">قیمت واحد</th>
+                                            <th class="p-2 border">مبلغ کل</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${(inv.items || []).map((item, i) => `
+                                            <tr class="border-b">
+                                                <td class="p-2 border text-center">${i + 1}</td>
+                                                <td class="p-2 border font-medium">${item.desc}</td>
+                                                <td class="p-2 border text-center">${item.qty}</td>
+                                                <td class="p-2 border">${Number(item.price).toLocaleString('fa-IR')} تومان</td>
+                                                <td class="p-2 border font-bold text-emerald-700">${Number(item.qty * item.price).toLocaleString('fa-IR')} تومان</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+
+                                <div class="flex justify-between items-center border-t pt-3 font-bold text-sm text-gray-800">
+                                    <span>مبلغ کل قابل پرداخت:</span>
+                                    <span class="text-emerald-700 text-base">${Number(inv.total || 0).toLocaleString('fa-IR')} تومان</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="downloadPDF()" class="bg-amber-600 text-white py-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-amber-700">📥 دریافت PDF</button>
+                                <button onclick="router.back()" class="bg-gray-200 text-gray-800 py-3 rounded-xl text-sm font-medium cursor-pointer">‹ بازگشت</button>
+                            </div>
+                        </div>
+                    `;
                 }
             }
         };
 
-        // Invoice Dynamic Calculation Functions
+        // Listen for mobile hardware back button (PopState)
+        window.addEventListener('popstate', (event) => {
+            if (event.state && event.state.view) {
+                router.history.pop();
+                router.navigate(event.state.view, event.state.params || {}, true);
+            } else {
+                router.navigate('home', {}, true);
+            }
+        });
+
+        // Initialize state on load
+        window.history.replaceState({ view: 'home' }, '', '#home');
+
         function addInvoiceRow() {
             const container = document.getElementById('invoice-rows');
             const row = document.createElement('div');
@@ -267,8 +503,6 @@
             if (rows.length > 1) {
                 btn.parentElement.remove();
                 calculateInvoiceTotal();
-            } else {
-                alert('فاکتور حداقل باید دارای یک ردیف باشد.');
             }
         }
 
@@ -300,7 +534,6 @@
             const number = document.getElementById('inv-number').value.trim();
             const status = document.getElementById('inv-status').value;
             
-            // Calculate totals
             let subTotal = 0;
             const items = [];
             const rows = document.querySelectorAll('.invoice-row-item');
@@ -328,8 +561,37 @@
             invoices.unshift(newInvoice);
             DB.set('invoices', invoices);
 
-            alert('فاکتور جدید با موفقیت ثبت و ذخیره شد.');
+            alert('فاکتور جدید با موفقیت ثبت شد.');
             router.navigate('invoices-list');
+        }
+
+        function deleteInvoice(index) {
+            if (confirm('آیا از حذف این فاکتور اطمینان دارید؟')) {
+                const invoices = DB.get('invoices') || [];
+                invoices.splice(index, 1);
+                DB.set('invoices', invoices);
+                router.render();
+            }
+        }
+
+        function changeTheme(themeName) {
+            const settings = DB.get('settings') || {};
+            settings.theme = themeName;
+            DB.set('settings', settings);
+            applySavedTheme();
+            router.render();
+        }
+
+        function downloadPDF() {
+            const element = document.getElementById('printable-invoice-card');
+            html2canvas(element, { scale: 2 }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+                const imgWidth = 210;
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+                pdf.save('factor.pdf');
+            });
         }
 
         router.render();
