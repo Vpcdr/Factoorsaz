@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فاکتوراپ - فاکتور ساز پیشرفته</title>
+    <title>فاکتوراپ - فاکتور ساز پیشرفته و حرفه‌ای</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#B78C2E">
     <!-- Vazirmatn Font -->
@@ -24,54 +24,41 @@
         .theme-minimal-blue { --bg-color: #eff6ff; --primary-color: #3b82f6; --secondary-color: #1e3a8a; }
         .theme-classic-crimson { --bg-color: #fdf2f2; --primary-color: #991b1b; --secondary-color: #7f1d1d; }
         .theme-traditional-gold { --bg-color: #fefce8; --primary-color: #ca8a04; --secondary-color: #1e3a8a; }
-        .theme-traditional-red { --bg-color: #fff7ed; --primary-color: #c2410c; --secondary-color: #0d9488; }
-        .theme-modern-gold { --bg-color: #fafaf9; --primary-color: #d97706; --secondary-color: #059669; }
-        .theme-modern-lapis { --bg-color: #f0f9ff; --primary-color: #0284c7; --secondary-color: #0369a1; }
         .theme-luxurious { --bg-color: #111827; --primary-color: #d97706; --secondary-color: #374151; color: #f9fafb; }
-        .theme-luxurious-red { --bg-color: #450a0a; --primary-color: #f59e0b; --secondary-color: #991b1b; color: #fef2f2; }
+        .theme-emerald-night { --bg-color: #022c22; --primary-color: #059669; --secondary-color: #065f46; color: #ecfdf5; }
+        .theme-indigo-royal { --bg-color: #1e1b4b; --primary-color: #6366f1; --secondary-color: #4338ca; color: #e0e7ff; }
         
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.05); }
         ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 3px; }
-
-        @media print {
-            body * { visibility: hidden; }
-            #thermal-print-area, #thermal-print-area * { visibility: visible; }
-            #thermal-print-area { position: absolute; left: 0; top: 0; width: 80mm; font-size: 11px; }
-        }
     </style>
 </head>
 <body id="body-root" class="theme-classic min-h-screen flex flex-col justify-between selection:bg-amber-200">
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white px-5 py-2.5 rounded-2xl shadow-xl text-xs font-bold transition-all duration-300 opacity-0 pointer-events-none flex items-center gap-2">
-        <span id="toast-msg">پیام سیستم</span>
-    </div>
-
     <!-- Top Header -->
     <header class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-40 px-4 py-3 flex items-center justify-between shadow-xs">
-        <div class="flex items-center gap-3 cursor-pointer" id="logo-header-click">
-            <div class="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center font-bold text-amber-700 shadow-inner text-lg">F</div>
+        <div class="flex items-center gap-3 cursor-pointer" onclick="router.navigate('home')">
+            <div class="w-10 h-10 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center font-bold text-amber-700 shadow-inner">F</div>
             <div>
                 <h1 class="font-bold text-base tracking-tight flex items-center gap-2">
-                    فاکتوراپ <span id="license-badge-mini" class="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">فعال ✓ مادام‌العمر</span>
+                    فاکتوراپ <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800">نسخه حرفه‌ای</span>
                 </h1>
-                <p class="text-[11px] text-gray-500" id="license-sub-text">لایسنس معتبر است</p>
+                <p class="text-[11px] text-gray-500">مدیریت هوشمند کسب‌وکار</p>
             </div>
         </div>
         <div class="bg-amber-50 border border-amber-200/60 px-3 py-1 rounded-xl text-xs font-medium text-amber-900 shadow-2xs" id="shamsi-date-box">
             تاریخ امروز
         </div>
         <div class="text-left">
-            <span class="text-xs font-bold text-gray-700 block">ver 23.1</span>
-            <span class="text-[10px] text-gray-400">Created by Grok</span>
+            <span class="text-xs font-bold text-gray-700 block">ver 23.2</span>
+            <span class="text-[10px] text-gray-400">Pro Edition</span>
         </div>
     </header>
 
-    <!-- Sub-Header Navigation -->
+    <!-- Sub-Header Top Navigation -->
     <nav id="top-nav-bar" class="bg-amber-100/60 border-b border-amber-200/80 px-4 py-2 flex justify-between items-center text-xs font-bold text-amber-900 hidden">
         <button onclick="router.back()" class="hover:text-amber-700 flex items-center gap-1 cursor-pointer bg-white/80 px-3 py-1 rounded-lg border border-amber-200 shadow-2xs">
-            ‹ بازگشت
+            ‹ بازگشت به عقب
         </button>
         <button onclick="router.navigate('home')" class="hover:text-amber-700 flex items-center gap-1 cursor-pointer bg-white/80 px-3 py-1 rounded-lg border border-amber-200 shadow-2xs">
             🏠 صفحه اصلی
@@ -79,26 +66,22 @@
     </nav>
 
     <!-- Main Container -->
-    <main id="app-container" class="flex-1 max-w-4xl w-full mx-auto p-4 pb-20">
+    <main id="app-container" class="flex-1 max-w-4xl w-full mx-auto p-4 pb-24">
         <!-- Dynamic Views -->
     </main>
 
-    <!-- Thermal Print Area (Hidden except during print) -->
-    <div id="thermal-print-area" class="hidden"></div>
-
     <!-- Bottom Navigation Bar -->
-    <footer class="bg-white/90 backdrop-blur-md border-t border-gray-200 py-2 px-4 text-center text-xs text-gray-600 fixed bottom-0 left-0 right-0 z-30 flex justify-between items-center shadow-lg">
+    <footer class="bg-white/90 backdrop-blur-md border-t border-gray-200 py-2.5 px-4 text-center text-xs text-gray-600 fixed bottom-0 left-0 right-0 z-30 flex justify-between items-center shadow-lg">
         <button onclick="router.navigate('home')" class="hover:text-amber-700 font-bold flex items-center gap-1 cursor-pointer bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200">
             🏠 صفحه اصلی
         </button>
-        <span id="footer-version-label" class="text-[11px] text-gray-400">Created by Grok . ver 23.1</span>
+        <span id="footer-version-label" class="text-[11px] text-gray-400">Factoorsaz Pro . ver 23.2</span>
         <button onclick="router.back()" class="hover:text-amber-700 font-bold flex items-center gap-1 cursor-pointer bg-gray-100 px-3 py-1.5 rounded-xl border border-gray-200">
             ‹ بازگشت
         </button>
     </footer>
 
     <script>
-        // Database & LocalStorage Helper
         const DB = {
             get(key, defaultVal = null) {
                 const val = localStorage.getItem(key);
@@ -109,91 +92,30 @@
             }
         };
 
-        // Initialize Local Storage Default Data
-        if (!DB.get('first_use_date')) DB.set('first_use_date', new Date().toISOString());
-        if (!DB.get('profiles')) DB.set('profiles', [{}, {}]);
+        // Initialize DB items if empty
+        if (!DB.get('profiles')) DB.set('profiles', [
+            {name: 'فروشگاه مرکزی', job: 'تجهیزات و خدمات', phone: '09150000000'}, 
+            {name: 'خدمات فنی', job: 'تعمیرات تخصصی', phone: '09151111111'}
+        ]);
         if (!DB.get('activeProfileIndex')) DB.set('activeProfileIndex', 0);
         if (!DB.get('customers')) DB.set('customers', [
-            {id: 1, name: 'علی احمدی', phone: '09123456789', address: 'تهران، خیابان ولیعصر', balance: 0},
-            {id: 2, name: 'شرکت تجارت نوین', phone: '09198765432', address: 'مشهد، بلوار سجاد', balance: 150000}
+            {name: 'علی احمدی', phone: '09123456789', address: 'تهران، ولیعصر'},
+            {name: 'شرکت تجارت نوین', phone: '09198765432', address: 'مشهد، سجاد'}
         ]);
         if (!DB.get('products')) DB.set('products', [
-            {id: 1, name: 'روغن موتور 10W40', code: 'P101', unit: 'عدد', buyPrice: 180000, sellPrice: 250000, stock: 15},
-            {id: 2, name: 'فیلتر هوا پراید', code: 'P102', unit: 'عدد', buyPrice: 30000, sellPrice: 50000, stock: 30},
-            {id: 3, name: 'اجرت تعویض روغن', code: 'S201', unit: 'خدمت', buyPrice: 0, sellPrice: 80000, stock: 999}
+            {name: 'کالای نمونه ۱', code: 'P01', unit: 'عدد', buyPrice: 100000, sellPrice: 150000, stock: 25},
+            {name: 'خدمات فنی', code: 'S01', unit: 'ساعت', buyPrice: 0, sellPrice: 300000, stock: 100}
         ]);
         if (!DB.get('invoices')) DB.set('invoices', []);
-        if (!DB.get('reminders')) DB.set('reminders', [
-            {id: 1, title: 'تماس با آقای احمدی برای تسویه حساب', date: '۱۴۰۵/۰۸/۱۵', done: false}
-        ]);
-        if (!DB.get('notes')) DB.set('notes', [
-            {id: 1, title: 'یادداشت خریدهای انبار', content: 'سفارش فیلتر هوا و روغن موتور جدید هفته آینده'}
-        ]);
-        if (!DB.get('settings')) DB.set('settings', { theme: 'theme-classic', currency: 'تومان' });
-        if (!DB.get('factor_license')) DB.set('factor_license', 'VPCDR-8899-7766-5544');
+        if (!DB.get('notes')) DB.set('notes', [{title: 'یادداشت نمونه', text: 'پیگیری فاکتور شماره ۱۰۱'}]);
+        if (!DB.get('settings')) DB.set('settings', { theme: 'theme-classic', currency: 'تومان', fontSize: 'text-sm' });
 
-        // Toast Notification Helper
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-msg').innerText = msg;
-            toast.classList.remove('opacity-0', 'pointer-events-none');
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'pointer-events-none');
-            }, 3000);
-        }
-
-        // Apply Saved Theme
-        function applySavedTheme() {
+        function applySettings() {
             const settings = DB.get('settings');
             const body = document.getElementById('body-root');
-            if (body && settings && settings.theme) {
-                body.className = `${settings.theme} min-h-screen flex flex-col justify-between selection:bg-amber-200`;
+            if (body && settings) {
+                body.className = `${settings.theme} min-h-screen flex flex-col justify-between selection:bg-amber-200 ${settings.fontSize || 'text-sm'}`;
             }
-        }
-
-        // Convert Numbers to Words (Fa)
-        function numToWords(num) {
-            if (num === 0) return 'صفر';
-            const units = ['', 'یک', 'دو', 'سه', 'چهار', 'پنج', 'شش', 'هفت', 'هشت', 'نه'];
-            const teens = ['ده', 'یازده', 'دوازده', 'سیزده', 'چهارده', 'پانزده', 'شانزده', 'هفده', 'هجده', 'نوزده'];
-            const tens = ['', '', 'بیست', 'سی', 'چهل', 'پنجاه', 'شصت', 'هفتاد', 'هشتاد', 'نود'];
-            const hundreds = ['', 'صد', 'دویست', 'سیصد', 'چهارصد', 'پانصد', 'ششصد', 'هفتصد', 'هشتصد', 'نهصد'];
-            const thousands = ['', ' هزار', ' میلیون', ' میلیارد', ' تریلیون'];
-
-            function convertChunk(n) {
-                let str = '';
-                if (n >= 100) {
-                    str += hundreds[Math.floor(n / 100)];
-                    n %= 100;
-                    if (n > 0) str += ' و ';
-                }
-                if (n >= 10 && n < 20) {
-                    str += teens[n - 10];
-                } else {
-                    if (n >= 20) {
-                        str += tens[Math.floor(n / 10)];
-                        n %= 10;
-                        if (n > 0) str += ' و ';
-                    }
-                    if (n > 0 && n < 10) {
-                        str += units[n];
-                    }
-                }
-                return str;
-            }
-
-            let wordStr = '';
-            let unitIdx = 0;
-            while (num > 0) {
-                let chunk = num % 1000;
-                if (chunk > 0) {
-                    let chunkText = convertChunk(chunk) + thousands[unitIdx];
-                    wordStr = chunkText + (wordStr ? ' و ' + wordStr : '');
-                }
-                num = Math.floor(num / 1000);
-                unitIdx++;
-            }
-            return wordStr;
         }
 
         function getShamsiToday() {
@@ -205,7 +127,6 @@
         }
         document.getElementById('shamsi-date-box').innerText = getShamsiToday();
 
-        // Single Page Router
         const router = {
             history: ['home'],
             current: 'home',
@@ -230,7 +151,7 @@
                 }
             },
             render() {
-                applySavedTheme();
+                applySettings();
                 const container = document.getElementById('app-container');
                 const topNav = document.getElementById('top-nav-bar');
                 
@@ -240,647 +161,573 @@
                     topNav.classList.remove('hidden');
                 }
 
-                switch(this.current) {
-                    case 'home': container.innerHTML = renderHome(); break;
-                    case 'new-invoice': container.innerHTML = renderNewInvoice(); break;
-                    case 'invoices-list': container.innerHTML = renderInvoicesList(); break;
-                    case 'customers': container.innerHTML = renderCustomers(); break;
-                    case 'products': container.innerHTML = renderProducts(); break;
-                    case 'accounting': container.innerHTML = renderAccounting(); break;
-                    case 'reports': container.innerHTML = renderReports(); break;
-                    case 'reminders': container.innerHTML = renderReminders(); break;
-                    case 'notes': container.innerHTML = renderNotes(); break;
-                    case 'profiles': container.innerHTML = renderProfiles(); break;
-                    case 'backup': container.innerHTML = renderBackup(); break;
-                    case 'license': container.innerHTML = renderLicense(); break;
-                    case 'settings': container.innerHTML = renderSettings(); break;
-                    case 'admin': container.innerHTML = renderAdmin(); break;
-                    case 'preview-invoice': container.innerHTML = renderPreviewInvoice(this.currentParams); break;
-                    default: container.innerHTML = renderHome();
+                if (this.current === 'home') {
+                    container.innerHTML = `
+                        <div class="space-y-4 animate-fadeIn">
+                            <div class="bg-gradient-to-r from-amber-500 to-amber-700 text-white p-5 rounded-2xl shadow-md flex items-center justify-between">
+                                <div>
+                                    <h2 class="font-bold text-lg">سلام، خوش آمدید!</h2>
+                                    <p class="text-xs text-amber-100 mt-1">مدیریت کامل فاکتورها، انبار، مشتریان و حسابداری</p>
+                                </div>
+                                <span class="text-3xl">🚀</span>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                                <button onclick="router.navigate('new-invoice')" class="bg-amber-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-amber-700 transition">
+                                    <span class="text-2xl">📄</span>
+                                    <span class="font-semibold text-sm">فاکتور جدید</span>
+                                </button>
+                                <button onclick="router.navigate('invoices-list')" class="bg-emerald-700 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-emerald-800 transition">
+                                    <span class="text-2xl">📑</span>
+                                    <span class="font-semibold text-sm">لیست فاکتورها</span>
+                                </button>
+                                <button onclick="router.navigate('customers')" class="bg-blue-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-blue-700 transition">
+                                    <span class="text-2xl">👥</span>
+                                    <span class="font-semibold text-sm">مشتریان</span>
+                                </button>
+                                <button onclick="router.navigate('products')" class="bg-purple-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-purple-700 transition">
+                                    <span class="text-2xl">📦</span>
+                                    <span class="font-semibold text-sm">کالا و انبار</span>
+                                </button>
+                                <button onclick="router.navigate('accounting')" class="bg-teal-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-teal-700 transition">
+                                    <span class="text-2xl">📊</span>
+                                    <span class="font-semibold text-sm">حسابداری مالی</span>
+                                </button>
+                                <button onclick="router.navigate('profiles')" class="bg-cyan-700 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-cyan-800 transition">
+                                    <span class="text-2xl">👤</span>
+                                    <span class="font-semibold text-sm">پروفایل فروشنده</span>
+                                </button>
+                                <button onclick="router.navigate('notes')" class="bg-indigo-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-indigo-700 transition">
+                                    <span class="text-2xl">📝</span>
+                                    <span class="font-semibold text-sm">یادآورها و یادداشت</span>
+                                </button>
+                                <button onclick="router.navigate('backup')" class="bg-rose-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-rose-700 transition">
+                                    <span class="text-2xl">💾</span>
+                                    <span class="font-semibold text-sm">پشتیبان‌گیری</span>
+                                </button>
+                                <button onclick="router.navigate('settings')" class="bg-gray-700 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-gray-800 transition">
+                                    <span class="text-2xl">⚙️</span>
+                                    <span class="font-semibold text-sm">تنظیمات و پوسته‌ها</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.current === 'profiles') {
+                    const profiles = DB.get('profiles') || [{}, {}];
+                    const activeIdx = DB.get('activeProfileIndex') || 0;
+                    const p = profiles[activeIdx] || {};
+
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">👤 مدیریت پروفایل فروشنده (۲ تب مجزا)</h2>
+                            </div>
+                            <div class="flex gap-2 border-b pb-3">
+                                <button onclick="switchProfileTab(0)" class="px-4 py-2 rounded-xl font-medium text-xs cursor-pointer ${activeIdx === 0 ? 'bg-amber-600 text-white shadow-sm' : 'bg-gray-100 text-gray-700'}">پروفایل ۱</button>
+                                <button onclick="switchProfileTab(1)" class="px-4 py-2 rounded-xl font-medium text-xs cursor-pointer ${activeIdx === 1 ? 'bg-amber-600 text-white shadow-sm' : 'bg-gray-100 text-gray-700'}">پروفایل ۲</button>
+                            </div>
+                            <div class="space-y-3 text-sm">
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-600 mb-1">نام فروشگاه / کسب‌وکار</label>
+                                        <input type="text" id="prof-name" value="${p.name || ''}" class="w-full p-3 border rounded-xl outline-none focus:border-amber-600" placeholder="مثلا: مولتی تعمیرات">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-600 mb-1">حوزه فعالیت / شغل</label>
+                                        <input type="text" id="prof-job" value="${p.job || ''}" class="w-full p-3 border rounded-xl outline-none focus:border-amber-600" placeholder="مثلا: تعمیرات تخصصی">
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-600 mb-1">شماره موبایل</label>
+                                        <input type="text" id="prof-phone" value="${p.phone || ''}" class="w-full p-3 border rounded-xl outline-none focus:border-amber-600" placeholder="0915...">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-600 mb-1">شماره کارت بانکی (۱۶ رقمی)</label>
+                                        <input type="text" id="prof-card" value="${p.card || ''}" class="w-full p-3 border rounded-xl outline-none focus:border-amber-600" placeholder="6104-...">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-600 mb-1">شماره شبا</label>
+                                    <input type="text" id="prof-sheba" value="${p.sheba || ''}" class="w-full p-3 border rounded-xl outline-none focus:border-amber-600" placeholder="IR...">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-600 mb-1">آدرس دقیق</label>
+                                    <textarea id="prof-address" class="w-full p-3 border rounded-xl outline-none focus:border-amber-600" rows="2">${p.address || ''}</textarea>
+                                </div>
+
+                                <!-- Image Uploads -->
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 border-t">
+                                    <div class="bg-gray-50 p-3 rounded-xl border text-center space-y-2">
+                                        <label class="block text-xs font-semibold text-gray-700">لوگوی کسب‌وکار</label>
+                                        <div class="w-20 h-20 mx-auto bg-white border rounded-xl flex items-center justify-center overflow-hidden">
+                                            <img id="preview-logo" src="${p.logo || ''}" class="w-full h-full object-cover ${p.logo ? '' : 'hidden'}">
+                                            <span id="placeholder-logo" class="text-xs text-gray-400 ${p.logo ? 'hidden' : ''}">بدون لوگو</span>
+                                        </div>
+                                        <input type="file" accept="image/*" onchange="handleImageUpload(event, 'logo')" class="w-full text-[10px] text-gray-500">
+                                    </div>
+                                    <div class="bg-gray-50 p-3 rounded-xl border text-center space-y-2">
+                                        <label class="block text-xs font-semibold text-gray-700">عکس پرسنلی</label>
+                                        <div class="w-20 h-20 mx-auto bg-white border rounded-full flex items-center justify-center overflow-hidden">
+                                            <img id="preview-avatar" src="${p.avatar || ''}" class="w-full h-full object-cover ${p.avatar ? '' : 'hidden'}">
+                                            <span id="placeholder-avatar" class="text-xs text-gray-400 ${p.avatar ? 'hidden' : ''}">بدون عکس</span>
+                                        </div>
+                                        <input type="file" accept="image/*" onchange="handleImageUpload(event, 'avatar')" class="w-full text-[10px] text-gray-500">
+                                    </div>
+                                    <div class="bg-gray-50 p-3 rounded-xl border text-center space-y-2">
+                                        <label class="block text-xs font-semibold text-gray-700">مهر فروشنده (PNG)</label>
+                                        <div class="w-20 h-20 mx-auto bg-white border rounded-xl flex items-center justify-center overflow-hidden">
+                                            <img id="preview-stamp" src="${p.stamp || ''}" class="w-full h-full object-contain ${p.stamp ? '' : 'hidden'}">
+                                            <span id="placeholder-stamp" class="text-xs text-gray-400 ${p.stamp ? 'hidden' : ''}">بدون مهر</span>
+                                        </div>
+                                        <input type="file" accept="image/*" onchange="handleImageUpload(event, 'stamp')" class="w-full text-[10px] text-gray-500">
+                                    </div>
+                                </div>
+                                <button onclick="saveProfileData()" class="w-full bg-amber-600 text-white py-3 rounded-xl font-bold cursor-pointer hover:bg-amber-700 shadow-sm">ذخیره پروفایل فروشنده</button>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.current === 'products') {
+                    const products = DB.get('products') || [];
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">📦 مدیریت انبار، کالا و خدمات</h2>
+                                <button onclick="openProductModal()" class="bg-purple-600 text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer hover:bg-purple-700">+ کالای جدید</button>
+                            </div>
+                            <div>
+                                <input type="text" id="search-product" oninput="filterProducts()" placeholder="جستجو بر اساس نام یا کد کالا..." class="w-full p-3 border rounded-xl text-sm outline-none focus:border-purple-600 bg-gray-50">
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-right text-xs">
+                                    <thead>
+                                        <tr class="bg-gray-100 text-gray-600 border-b">
+                                            <th class="p-3">نام کالا / خدمات</th>
+                                            <th class="p-3">کد</th>
+                                            <th class="p-3">قیمت خرید</th>
+                                            <th class="p-3">قیمت فروش</th>
+                                            <th class="p-3">موجودی</th>
+                                            <th class="p-3 text-center">عملیات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="products-table-body">
+                                        ${products.map((p, index) => `
+                                            <tr class="border-b hover:bg-gray-50 transition product-row">
+                                                <td class="p-3 font-bold text-gray-800 prod-name">${p.name}</td>
+                                                <td class="p-3 text-gray-500">${p.code || '-'}</td>
+                                                <td class="p-3 text-gray-600">${Number(p.buyPrice || 0).toLocaleString('fa-IR')}</td>
+                                                <td class="p-3 font-semibold text-emerald-700">${Number(p.sellPrice || 0).toLocaleString('fa-IR')}</td>
+                                                <td class="p-3 font-bold ${p.stock <= 3 ? 'text-red-600' : 'text-blue-600'}">${p.stock || 0} ${p.unit || 'عدد'}</td>
+                                                <td class="p-3 text-center space-x-2 space-x-reverse">
+                                                    <button onclick="openProductModal(${index})" class="text-blue-600 hover:underline cursor-pointer">ویرایش</button>
+                                                    <button onclick="deleteProduct(${index})" class="text-red-600 hover:underline cursor-pointer">حذف</button>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Product Modal -->
+                        <div id="product-modal" class="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 hidden z-50">
+                            <div class="bg-white w-full max-w-md p-5 rounded-2xl shadow-xl space-y-4">
+                                <h3 id="prod-modal-title" class="font-bold text-base text-gray-800 border-b pb-2">افزودن کالا</h3>
+                                <input type="hidden" id="edit-prod-index" value="-1">
+                                <div class="space-y-3 text-sm">
+                                    <div><label class="block text-xs text-gray-600 mb-1">نام کالا *</label><input type="text" id="p-name" class="w-full p-3 border rounded-xl outline-none focus:border-purple-600"></div>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div><label class="block text-xs text-gray-600 mb-1">کد کالا</label><input type="text" id="p-code" class="w-full p-3 border rounded-xl outline-none focus:border-purple-600"></div>
+                                        <div><label class="block text-xs text-gray-600 mb-1">واحد</label><input type="text" id="p-unit" value="عدد" class="w-full p-3 border rounded-xl outline-none focus:border-purple-600"></div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div><label class="block text-xs text-gray-600 mb-1">قیمت خرید (تومان)</label><input type="number" id="p-buy" value="0" class="w-full p-3 border rounded-xl outline-none focus:border-purple-600"></div>
+                                        <div><label class="block text-xs text-gray-600 mb-1">قیمت فروش (تومان)</label><input type="number" id="p-sell" value="0" class="w-full p-3 border rounded-xl outline-none focus:border-purple-600"></div>
+                                    </div>
+                                    <div><label class="block text-xs text-gray-600 mb-1">موجودی انبار</label><input type="number" id="p-stock" value="10" class="w-full p-3 border rounded-xl outline-none focus:border-purple-600"></div>
+                                </div>
+                                <div class="flex gap-2 pt-2">
+                                    <button onclick="saveProduct()" class="flex-1 bg-purple-600 text-white py-2.5 rounded-xl font-bold cursor-pointer hover:bg-purple-700">ذخیره کالا</button>
+                                    <button onclick="closeProductModal()" class="px-4 bg-gray-200 text-gray-800 py-2.5 rounded-xl font-medium cursor-pointer">انصراف</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.current === 'customers') {
+                    const customers = DB.get('customers') || [];
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">👥 مدیریت پیشرفته مشتریان</h2>
+                                <button onclick="openCustomerModal()" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer hover:bg-blue-700">+ مشتری جدید</button>
+                            </div>
+                            <div>
+                                <input type="text" id="search-customer" oninput="filterCustomers()" placeholder="جستجو بر اساس نام یا شماره موبایل..." class="w-full p-3 border rounded-xl text-sm outline-none focus:border-blue-600 bg-gray-50">
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-right text-xs">
+                                    <thead>
+                                        <tr class="bg-gray-100 text-gray-600 border-b">
+                                            <th class="p-3">نام مشتری / شرکت</th>
+                                            <th class="p-3">شماره موبایل</th>
+                                            <th class="p-3">آدرس</th>
+                                            <th class="p-3 text-center">عملیات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="customers-table-body">
+                                        ${customers.map((c, index) => `
+                                            <tr class="border-b hover:bg-gray-50 transition customer-row">
+                                                <td class="p-3 font-bold text-gray-800 cust-name">${c.name}</td>
+                                                <td class="p-3 text-gray-600 font-mono cust-phone">${c.phone || '-'}</td>
+                                                <td class="p-3 text-gray-500">${c.address || '-'}</td>
+                                                <td class="p-3 text-center space-x-2 space-x-reverse">
+                                                    <button onclick="openCustomerModal(${index})" class="text-blue-600 hover:underline cursor-pointer">ویرایش</button>
+                                                    <button onclick="deleteCustomer(${index})" class="text-red-600 hover:underline cursor-pointer">حذف</button>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Customer Modal -->
+                        <div id="customer-modal" class="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 hidden z-50">
+                            <div class="bg-white w-full max-w-md p-5 rounded-2xl shadow-xl space-y-4">
+                                <h3 id="cust-modal-title" class="font-bold text-base text-gray-800 border-b pb-2">افزودن مشتری</h3>
+                                <input type="hidden" id="edit-cust-index" value="-1">
+                                <div class="space-y-3 text-sm">
+                                    <div><label class="block text-xs text-gray-600 mb-1">نام و نام خانوادگی *</label><input type="text" id="c-name" class="w-full p-3 border rounded-xl outline-none focus:border-blue-600"></div>
+                                    <div><label class="block text-xs text-gray-600 mb-1">شماره موبایل</label><input type="text" id="c-phone" class="w-full p-3 border rounded-xl outline-none focus:border-blue-600"></div>
+                                    <div><label class="block text-xs text-gray-600 mb-1">آدرس</label><textarea id="c-address" class="w-full p-3 border rounded-xl outline-none focus:border-blue-600" rows="2"></textarea></div>
+                                </div>
+                                <div class="flex gap-2 pt-2">
+                                    <button onclick="saveCustomer()" class="flex-1 bg-blue-600 text-white py-2.5 rounded-xl font-bold cursor-pointer hover:bg-blue-700">ذخیره مشتری</button>
+                                    <button onclick="closeCustomerModal()" class="px-4 bg-gray-200 text-gray-800 py-2.5 rounded-xl font-medium cursor-pointer">انصراف</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.current === 'new-invoice') {
+                    const customers = DB.get('customers') || [];
+                    const products = DB.get('products') || [];
+                    const invoices = DB.get('invoices') || [];
+                    const nextInvoiceNumber = 1000 + invoices.length + 1;
+                    const todayDate = getShamsiToday();
+
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-5">
+                            <h2 class="text-lg font-bold text-gray-800 border-b pb-2 flex items-center justify-between">
+                                <span class="flex items-center gap-2">📄 صدور فاکتور جدید (کسر خودکار انبار)</span>
+                            </h2>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div class="space-y-2">
+                                    <label class="block text-xs font-semibold text-gray-600">انتخاب مشتری یا ورود نام جدید</label>
+                                    <select id="inv-customer-select" onchange="onCustomerSelectChange()" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
+                                        <option value="">-- انتخاب از مشتریان قبلی --</option>
+                                        ${customers.map(c => `<option value="${c.name}">${c.name} (${c.phone || 'بدون تلفن'})</option>`).join('')}
+                                    </select>
+                                    <input type="text" id="inv-customer-name" placeholder="یا نام مشتری را دستی وارد کنید..." class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
+                                    <input type="text" id="inv-customer-phone" placeholder="شماره موبایل مشتری (اختیاری)" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
+                                </div>
+                                <div class="space-y-2">
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-600 mb-1">شماره فاکتور</label>
+                                            <input type="text" id="inv-number" value="${nextInvoiceNumber}" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-semibold text-gray-600 mb-1">تاریخ فاکتور</label>
+                                            <input type="text" id="inv-date" value="${todayDate}" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-gray-600 mb-1">وضعیت پرداخت</label>
+                                        <select id="inv-status" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
+                                            <option value="تسویه شده">تسویه شده</option>
+                                            <option value="تسویه نشده">تسویه نشده (طلب)</option>
+                                            <option value="تسویه جزئی">تسویه جزئی</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <h3 class="font-bold text-sm text-gray-700">اقلام فاکتور</h3>
+                                    <button onclick="addInvoiceRow()" class="bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium cursor-pointer hover:bg-emerald-800">+ افزودن ردیف</button>
+                                </div>
+                                <div id="invoice-rows" class="space-y-2">
+                                    <div class="flex gap-2 items-center bg-gray-50 p-2 rounded-xl border invoice-row-item">
+                                        <select class="p-2 border rounded-lg text-xs bg-white item-select" onchange="onProductRowSelect(this)">
+                                            <option value="">-- انتخاب از انبار --</option>
+                                            ${products.map(p => `<option value="${p.name}" data-price="${p.sellPrice || 0}">${p.name} (موجودی: ${p.stock || 0})</option>`).join('')}
+                                        </select>
+                                        <input type="text" placeholder="شرح کالا / خدمات" class="flex-1 p-2 border rounded-lg text-xs bg-white item-desc">
+                                        <input type="number" value="1" min="1" placeholder="تعداد" class="w-16 p-2 border rounded-lg text-xs bg-white item-qty" oninput="calculateInvoiceTotal()">
+                                        <input type="number" value="0" min="0" placeholder="قیمت واحد" class="w-28 p-2 border rounded-lg text-xs bg-white item-price" oninput="calculateInvoiceTotal()">
+                                        <span class="text-xs font-bold text-gray-600 w-24 text-center item-sum">۰ تومان</span>
+                                        <button onclick="removeInvoiceRow(this)" class="text-red-500 px-2 font-bold cursor-pointer">×</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-200/60 space-y-2 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-600">جمع کل اقلام:</span>
+                                    <span id="sub-total-val" class="font-bold">۰ تومان</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-gray-600">تخفیف (تومان):</span>
+                                    <input type="number" id="discount-val" value="0" min="0" class="w-32 p-1.5 border rounded-lg text-xs bg-white text-left outline-none focus:border-amber-600" oninput="calculateInvoiceTotal()">
+                                </div>
+                                <div class="flex justify-between text-base font-bold text-amber-900 border-t pt-2">
+                                    <span>مبلغ قابل پرداخت:</span>
+                                    <span id="final-total-val">۰ تومان</span>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-2 pt-2">
+                                <button onclick="saveNewInvoice()" class="flex-1 bg-amber-600 text-white py-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-amber-700 shadow-sm">ثبت نهایی و کسر از انبار</button>
+                                <button onclick="router.back()" class="px-5 bg-gray-200 text-gray-800 py-3 rounded-xl text-sm font-medium cursor-pointer">انصراف</button>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.current === 'invoices-list') {
+                    const invoices = DB.get('invoices') || [];
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">📑 لیست فاکتورهای صادر شده</h2>
+                                <button onclick="router.navigate('new-invoice')" class="bg-amber-600 text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">+ فاکتور جدید</button>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-right text-xs">
+                                    <thead>
+                                        <tr class="bg-gray-100 text-gray-600 border-b">
+                                            <th class="p-3">شماره</th>
+                                            <th class="p-3">مشتری</th>
+                                            <th class="p-3">تاریخ</th>
+                                            <th class="p-3">مبلغ کل</th>
+                                            <th class="p-3">وضعیت</th>
+                                            <th class="p-3 text-center">عملیات</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${invoices.map((inv, index) => `
+                                            <tr class="border-b hover:bg-gray-50 transition">
+                                                <td class="p-3 font-bold text-gray-800">#${inv.id || 1000 + index}</td>
+                                                <td class="p-3 font-semibold text-gray-700">${inv.customer}</td>
+                                                <td class="p-3 text-gray-500">${inv.date}</td>
+                                                <td class="p-3 font-bold text-emerald-700">${Number(inv.total || 0).toLocaleString('fa-IR')} تومان</td>
+                                                <td class="p-3"><span class="px-2 py-1 rounded-full text-[10px] ${inv.status === 'تسویه شده' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${inv.status || 'تسویه نشده'}</span></td>
+                                                <td class="p-3 text-center space-x-2 space-x-reverse">
+                                                    <button onclick="router.navigate('preview-invoice', { index: ${index} })" class="text-blue-600 hover:underline cursor-pointer">چاپ و پیش‌نمایش</button>
+                                                    <button onclick="deleteInvoice(${index})" class="text-red-600 hover:underline cursor-pointer">حذف</button>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.current === 'preview-invoice') {
+                    const invoices = DB.get('invoices') || [];
+                    const idx = this.currentParams.index !== undefined ? this.currentParams.index : 0;
+                    const inv = invoices[idx] || { id: '1001', customer: 'مشتری نمونه', total: 0, items: [] };
+                    const profiles = DB.get('profiles') || [{}, {}];
+                    const activeIdx = DB.get('activeProfileIndex') || 0;
+                    const seller = profiles[activeIdx] || {};
+
+                    container.innerHTML = `
+                        <div class="space-y-4">
+                            <div id="printable-invoice-card" class="bg-white p-6 rounded-2xl border shadow-md space-y-4 text-xs">
+                                <div class="bg-emerald-700 text-white p-3 rounded-xl flex justify-between items-center">
+                                    <div>
+                                        <h2 class="font-bold text-base">${seller.name || 'فروشگاه آنلاین'}</h2>
+                                        <p class="text-[10px] text-emerald-100">${seller.job || 'ارائه‌دهنده خدمات و کالا'}</p>
+                                    </div>
+                                    <div class="text-left">
+                                        <span class="block font-bold">فاکتور فروش #${inv.id}</span>
+                                        <span class="text-[10px] opacity-80">${inv.date}</span>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3 border p-3 rounded-xl bg-gray-50/50">
+                                    <div>
+                                        <span class="block font-bold text-gray-700">فروشنده:</span>
+                                        <p class="text-gray-600">${seller.name || 'نامشخص'}</p>
+                                        <p class="text-gray-500">تلفن: ${seller.phone || '-'}</p>
+                                        <p class="text-gray-500">کارت: ${seller.card || '-'}</p>
+                                    </div>
+                                    <div>
+                                        <span class="block font-bold text-gray-700">خریدار:</span>
+                                        <p class="text-gray-600">${inv.customer}</p>
+                                    </div>
+                                </div>
+                                <table class="w-full text-right border-collapse">
+                                    <thead>
+                                        <tr class="bg-gray-100 border-b">
+                                            <th class="p-2 border">ردیف</th>
+                                            <th class="p-2 border">شرح کالا / خدمات</th>
+                                            <th class="p-2 border">تعداد</th>
+                                            <th class="p-2 border">قیمت واحد</th>
+                                            <th class="p-2 border">مبلغ کل</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${(inv.items || []).map((item, i) => `
+                                            <tr class="border-b">
+                                                <td class="p-2 border text-center">${i + 1}</td>
+                                                <td class="p-2 border font-medium">${item.desc}</td>
+                                                <td class="p-2 border text-center">${item.qty}</td>
+                                                <td class="p-2 border">${Number(item.price).toLocaleString('fa-IR')} تومان</td>
+                                                <td class="p-2 border font-bold text-emerald-700">${Number(item.qty * item.price).toLocaleString('fa-IR')} تومان</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                                <div class="flex justify-between items-center border-t pt-3 font-bold text-sm text-gray-800">
+                                    <span>مبلغ کل قابل پرداخت:</span>
+                                    <span class="text-emerald-700 text-base">${Number(inv.total || 0).toLocaleString('fa-IR')} تومان</span>
+                                </div>
+                                <div class="pt-6 flex justify-between items-center text-center">
+                                    <div><span class="text-[11px] text-gray-500">امضا و اثر انگشت خریدار</span></div>
+                                    <div class="w-24 h-20 border border-dashed rounded-xl flex items-center justify-center overflow-hidden">
+                                        <img src="${seller.stamp || ''}" class="${seller.stamp ? '' : 'hidden'} object-contain w-full h-full transform -rotate-6">
+                                        <span class="${seller.stamp ? 'hidden' : ''} text-[10px] text-gray-400">مهر فروشنده</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                <button onclick="downloadPDF()" class="bg-amber-600 text-white py-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-amber-700 shadow-sm">📥 دانلود PDF</button>
+                                <button onclick="printThermal()" class="bg-indigo-600 text-white py-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-indigo-700 shadow-sm">🖨️ چاپ حرارتی</button>
+                                <button onclick="shareWhatsApp()" class="bg-emerald-600 text-white py-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-emerald-700 shadow-sm">💬 پیامک / واتساپ</button>
+                                <button onclick="router.back()" class="bg-gray-200 text-gray-800 py-3 rounded-xl text-sm font-medium cursor-pointer">بازگشت</button>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.current === 'accounting') {
+                    const invoices = DB.get('invoices') || [];
+                    const products = DB.get('products') || [];
+                    let totalRev = 0, totalDebt = 0;
+                    invoices.forEach(inv => {
+                        const t = inv.total || 0;
+                        totalRev += t;
+                        if (inv.status === 'تسویه نشده') totalDebt += t;
+                    });
+                    let warehouseVal = 0;
+                    products.forEach(p => warehouseVal += (p.buyPrice || 0) * (p.stock || 0));
+
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
+                            <h2 class="text-lg font-bold text-gray-800 border-b pb-2 flex items-center gap-2">📊 حسابداری ساده و گزارش مالی</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl space-y-1">
+                                    <span class="text-xs text-emerald-600 font-semibold">کل فروش (درآمد)</span>
+                                    <h3 class="text-lg font-extrabold text-emerald-900">${totalRev.toLocaleString('fa-IR')} تومان</h3>
+                                </div>
+                                <div class="bg-rose-50 border border-rose-200 p-4 rounded-2xl space-y-1">
+                                    <span class="text-xs text-rose-600 font-semibold">بدهی مشتریان (طلب شما)</span>
+                                    <h3 class="text-lg font-extrabold text-rose-900">${totalDebt.toLocaleString('fa-IR')} تومان</h3>
+                                </div>
+                                <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl space-y-1">
+                                    <span class="text-xs text-amber-700 font-semibold">ارزش سرمایه انبار</span>
+                                    <h3 class="text-lg font-extrabold text-amber-900">${warehouseVal.toLocaleString('fa-IR')} تومان</h3>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.current === 'notes') {
+                    const notes = DB.get('notes') || [];
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <h2 class="text-lg font-bold text-gray-800">📝 یادآورها و یادداشت‌های سریع</h2>
+                                <button onclick="openNoteModal()" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">+ یادداشت جدید</button>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                ${notes.map((n, i) => `
+                                    <div class="bg-indigo-50/50 border border-indigo-100 p-4 rounded-xl space-y-2">
+                                        <h3 class="font-bold text-sm text-indigo-900">${n.title}</h3>
+                                        <p class="text-xs text-gray-700">${n.text}</p>
+                                        <div class="text-left"><button onclick="deleteNote(${i})" class="text-red-600 text-[11px] cursor-pointer">حذف</button></div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div id="note-modal" class="fixed inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4 hidden z-50">
+                            <div class="bg-white w-full max-w-md p-5 rounded-2xl shadow-xl space-y-4">
+                                <h3 class="font-bold text-base text-gray-800 border-b pb-2">یادداشت جدید</h3>
+                                <div class="space-y-3 text-sm">
+                                    <div><label class="block text-xs text-gray-600 mb-1">موضوع / عنوان</label><input type="text" id="note-title" class="w-full p-3 border rounded-xl outline-none focus:border-indigo-600"></div>
+                                    <div><label class="block text-xs text-gray-600 mb-1">متن یادداشت</label><textarea id="note-text" class="w-full p-3 border rounded-xl outline-none focus:border-indigo-600" rows="3"></textarea></div>
+                                </div>
+                                <div class="flex gap-2 pt-2">
+                                    <button onclick="saveNote()" class="flex-1 bg-indigo-600 text-white py-2.5 rounded-xl font-bold cursor-pointer">ذخیره یادداشت</button>
+                                    <button onclick="document.getElementById('note-modal').classList.add('hidden')" class="px-4 bg-gray-200 py-2.5 rounded-xl cursor-pointer">انصراف</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.current === 'backup') {
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
+                            <h2 class="text-lg font-bold text-gray-800 border-b pb-2">💾 پشتیبان‌گیری و بازیابی اطلاعات</h2>
+                            <p class="text-xs text-gray-600">شما می‌توانید از تمامی اطلاعات برنامه (فاکتورها، مشتریان، کالاها و پروفایل‌ها) فایل پشتیبان تهیه کنید یا اطلاعات قبلی را بازیابی کنید.</p>
+                            <div class="flex flex-col sm:flex-row gap-3 pt-3">
+                                <button onclick="exportData()" class="bg-emerald-600 text-white p-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-emerald-700 shadow-sm">📥 دانلود فایل پشتیبان (JSON)</button>
+                                <label class="bg-blue-600 text-white p-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-blue-700 text-center shadow-sm">
+                                    📤 بازیابی اطلاعات از فایل
+                                    <input type="file" accept=".json" onchange="importData(event)" class="hidden">
+                                </label>
+                            </div>
+                        </div>
+                    `;
+                } else if (this.current === 'settings') {
+                    const settings = DB.get('settings') || { theme: 'theme-classic', currency: 'تومان', fontSize: 'text-sm' };
+                    container.innerHTML = `
+                        <div class="bg-white p-5 rounded-2xl shadow-sm space-y-5">
+                            <h2 class="text-lg font-bold text-gray-800 border-b pb-2">⚙️ تنظیمات و پوسته‌های حرفه‌ای برنامه</h2>
+                            <div class="space-y-2">
+                                <label class="block text-xs font-semibold text-gray-700">انتخاب پوسته و رنگ‌بندی</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                    <button onclick="changeTheme('theme-classic')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer ${settings.theme === 'theme-classic' ? 'border-amber-600 bg-amber-50' : 'bg-gray-50'}">کلاسیک طلایی</button>
+                                    <button onclick="changeTheme('theme-minimal-gray')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer ${settings.theme === 'theme-minimal-gray' ? 'border-gray-600 bg-gray-100' : 'bg-gray-50'}">مینیمال خاکستری</button>
+                                    <button onclick="changeTheme('theme-minimal-blue')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer ${settings.theme === 'theme-minimal-blue' ? 'border-blue-600 bg-blue-50' : 'bg-gray-50'}">مینیمال آبی</button>
+                                    <button onclick="changeTheme('theme-classic-crimson')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer ${settings.theme === 'theme-classic-crimson' ? 'border-red-600 bg-red-50' : 'bg-gray-50'}">زرشکی کلاسیک</button>
+                                    <button onclick="changeTheme('theme-traditional-gold')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer ${settings.theme === 'theme-traditional-gold' ? 'border-yellow-600 bg-yellow-50' : 'bg-gray-50'}">سنتی</button>
+                                    <button onclick="changeTheme('theme-luxurious')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer ${settings.theme === 'theme-luxurious' ? 'border-amber-500 bg-gray-900 text-amber-400' : 'bg-gray-50'}">لوکس تیره</button>
+                                    <button onclick="changeTheme('theme-emerald-night')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer ${settings.theme === 'theme-emerald-night' ? 'border-emerald-500 bg-emerald-950 text-emerald-200' : 'bg-gray-50'}">زمردی شب</button>
+                                    <button onclick="changeTheme('theme-indigo-royal')" class="p-3 border rounded-xl text-xs font-bold cursor-pointer ${settings.theme === 'theme-indigo-royal' ? 'border-indigo-500 bg-indigo-950 text-indigo-200' : 'bg-gray-50'}">سلطنتی بنفش</button>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-700 mb-1">واحد پول پیش‌فرض</label>
+                                    <select id="currency-select" onchange="saveCurrency()" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none">
+                                        <option value="تومان" ${settings.currency === 'تومان' ? 'selected' : ''}>تومان</option>
+                                        <option value="ریال" ${settings.currency === 'ریال' ? 'selected' : ''}>ریال</option>
+                                        <option value="دلار" ${settings.currency === 'دلار' ? 'selected' : ''}>دلار</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-gray-700 mb-1">اندازه قلم (فونت)</label>
+                                    <select id="fontsize-select" onchange="saveFontSize()" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none">
+                                        <option value="text-xs" ${settings.fontSize === 'text-xs' ? 'selected' : ''}>کوچک و فشرده</option>
+                                        <option value="text-sm" ${settings.fontSize === 'text-sm' ? 'selected' : ''}>استاندارد (پیش‌فرض)</option>
+                                        <option value="text-base" ${settings.fontSize === 'text-base' ? 'selected' : ''}>بزرگ و خوانا</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    `;
                 }
             }
         };
 
-        // Views Generator Functions
-        function renderHome() {
-            const reminders = DB.get('reminders') || [];
-            const pendingReminders = reminders.filter(r => !r.done);
-
-            return `
-                <div class="space-y-4 animate-fadeIn">
-                    <!-- Banner -->
-                    <div class="bg-gradient-to-r from-amber-500 to-amber-700 text-white p-4 rounded-2xl shadow-md flex items-center justify-between">
-                        <div>
-                            <h2 class="font-bold text-lg">خوش آمدید!</h2>
-                            <p class="text-xs text-amber-100 mt-1">سامانه صدور فاکتور و انبارداری فاکتوراپ</p>
-                        </div>
-                        <span class="text-3xl">💼</span>
-                    </div>
-
-                    ${pendingReminders.length > 0 ? `
-                        <div class="bg-rose-50 border border-rose-200 p-3 rounded-xl flex justify-between items-center text-xs text-rose-800">
-                            <span class="font-semibold">⏰ شما ${pendingReminders.length} یادآور انجام‌نشده دارید!</span>
-                            <button onclick="router.navigate('reminders')" class="bg-rose-600 text-white px-3 py-1 rounded-lg">مشاهده</button>
-                        </div>
-                    ` : ''}
-
-                    <!-- Grid Buttons -->
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                        <button onclick="router.navigate('new-invoice')" class="bg-amber-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-amber-700 transition">
-                            <span class="text-2xl">📄</span>
-                            <span class="font-semibold text-sm">فاکتور جدید</span>
-                        </button>
-                        <button onclick="router.navigate('invoices-list')" class="bg-emerald-700 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-emerald-800 transition">
-                            <span class="text-2xl">📑</span>
-                            <span class="font-semibold text-sm">لیست فاکتورها</span>
-                        </button>
-                        <button onclick="router.navigate('customers')" class="bg-blue-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-blue-700 transition">
-                            <span class="text-2xl">👥</span>
-                            <span class="font-semibold text-sm">مشتریان</span>
-                        </button>
-                        <button onclick="router.navigate('products')" class="bg-purple-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-purple-700 transition">
-                            <span class="text-2xl">📦</span>
-                            <span class="font-semibold text-sm">کالا و خدمات</span>
-                        </button>
-                        <button onclick="router.navigate('accounting')" class="bg-teal-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-teal-700 transition">
-                            <span class="text-2xl">📊</span>
-                            <span class="font-semibold text-sm">حسابداری</span>
-                        </button>
-                        <button onclick="router.navigate('reports')" class="bg-indigo-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-indigo-700 transition">
-                            <span class="text-2xl">📈</span>
-                            <span class="font-semibold text-sm">گزارش‌ها</span>
-                        </button>
-                        <button onclick="router.navigate('reminders')" class="bg-rose-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-rose-700 transition">
-                            <span class="text-2xl">⏰</span>
-                            <span class="font-semibold text-sm">یادآورها</span>
-                        </button>
-                        <button onclick="router.navigate('notes')" class="bg-amber-700 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-amber-800 transition">
-                            <span class="text-2xl">📝</span>
-                            <span class="font-semibold text-sm">یادداشت‌ها</span>
-                        </button>
-                        <button onclick="router.navigate('profiles')" class="bg-cyan-700 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-cyan-800 transition">
-                            <span class="text-2xl">👤</span>
-                            <span class="font-semibold text-sm">پروفایل فروشنده</span>
-                        </button>
-                        <button onclick="router.navigate('backup')" class="bg-slate-700 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-slate-800 transition">
-                            <span class="text-2xl">💾</span>
-                            <span class="font-semibold text-sm">پشتیبان‌گیری</span>
-                        </button>
-                        <button onclick="router.navigate('license')" class="bg-yellow-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-yellow-700 transition">
-                            <span class="text-2xl">🔑</span>
-                            <span class="font-semibold text-sm">لایسنس</span>
-                        </button>
-                        <button onclick="router.navigate('settings')" class="bg-gray-600 text-white p-4 rounded-2xl shadow-sm flex flex-col items-center justify-center gap-2 cursor-pointer hover:bg-gray-700 transition">
-                            <span class="text-2xl">⚙️</span>
-                            <span class="font-semibold text-sm">تنظیمات</span>
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderNewInvoice() {
-            const customers = DB.get('customers') || [];
-            const products = DB.get('products') || [];
-            const invoices = DB.get('invoices') || [];
-            const nextInvoiceNumber = 1000 + invoices.length + 1;
-            const todayDate = getShamsiToday();
-
-            return `
-                <div class="bg-white p-5 rounded-2xl shadow-sm space-y-5">
-                    <h2 class="text-lg font-bold text-gray-800 border-b pb-2 flex items-center justify-between">
-                        <span class="flex items-center gap-2">📄 صدور فاکتور جدید</span>
-                    </h2>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="space-y-2">
-                            <label class="block text-xs font-semibold text-gray-600">مشتری (انتخاب از لیست یا جدید)</label>
-                            <select id="inv-customer-select" onchange="onCustomerSelectChange()" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
-                                <option value="">-- انتخاب از مشتریان موجود --</option>
-                                ${customers.map(c => `<option value="${c.name}">${c.name} (${c.phone || 'بدون تلفن'})</option>`).join('')}
-                            </select>
-                            <input type="text" id="inv-customer-name" placeholder="یا نام مشتری جدید..." class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
-                            <input type="text" id="inv-customer-phone" placeholder="شماره موبایل مشتری..." class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
-                        </div>
-                        <div class="space-y-2">
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label class="block text-xs font-semibold text-gray-600 mb-1">شماره فاکتور</label>
-                                    <input type="text" id="inv-number" value="${nextInvoiceNumber}" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-semibold text-gray-600 mb-1">تاریخ فاکتور</label>
-                                    <input type="text" id="inv-date" value="${todayDate}" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-semibold text-gray-600 mb-1">وضعیت پرداخت</label>
-                                <select id="inv-status" class="w-full p-3 border rounded-xl text-sm bg-gray-50 outline-none focus:border-amber-600">
-                                    <option value="تسویه شده">تسویه شده</option>
-                                    <option value="تسویه نشده">تسویه نشده (طلب)</option>
-                                    <option value="تسویه جزئی">تسویه جزئی</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Items Table -->
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <h3 class="font-bold text-sm text-gray-700">اقلام فاکتور</h3>
-                            <button onclick="addInvoiceRow()" class="bg-emerald-700 text-white px-3 py-1.5 rounded-xl text-xs font-medium cursor-pointer hover:bg-emerald-800">+ افزودن ردیف</button>
-                        </div>
-                        <div id="invoice-rows" class="space-y-2">
-                            <div class="flex gap-2 items-center bg-gray-50 p-2 rounded-xl border invoice-row-item">
-                                <input type="text" placeholder="شرح کالا یا خدمات..." list="products-datalist" class="flex-1 p-2 border rounded-lg text-xs bg-white item-desc" onchange="autoFillProductPrice(this)">
-                                <input type="number" value="1" min="1" placeholder="تعداد" class="w-16 p-2 border rounded-lg text-xs bg-white item-qty" oninput="calculateInvoiceTotal()">
-                                <input type="number" value="0" min="0" placeholder="قیمت واحد" class="w-28 p-2 border rounded-lg text-xs bg-white item-price" oninput="calculateInvoiceTotal()">
-                                <span class="text-xs font-bold text-gray-600 w-24 text-center item-sum">۰ تومان</span>
-                                <button onclick="removeInvoiceRow(this)" class="text-red-500 px-2 font-bold cursor-pointer">×</button>
-                            </div>
-                        </div>
-                        <datalist id="products-datalist">
-                            ${products.map(p => `<option value="${p.name}">${p.name} - ${p.sellPrice} تومان (موجودی: ${p.stock})</option>`).join('')}
-                        </datalist>
-                    </div>
-
-                    <!-- Summary -->
-                    <div class="bg-amber-50/50 p-4 rounded-xl border border-amber-200/60 space-y-2 text-sm">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">جمع کل اقلام:</span>
-                            <span id="sub-total-val" class="font-bold">۰ تومان</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-600">تخفیف (تومان):</span>
-                            <input type="number" id="discount-val" value="0" min="0" class="w-32 p-1.5 border rounded-lg text-xs bg-white text-left outline-none" oninput="calculateInvoiceTotal()">
-                        </div>
-                        <div class="flex justify-between text-base font-bold text-amber-900 border-t pt-2">
-                            <span>مبلغ قابل پرداخت:</span>
-                            <span id="final-total-val">۰ تومان</span>
-                        </div>
-                        <p id="total-words-val" class="text-xs text-amber-800 font-medium border-t pt-1">مبلغ به حروف: صفر تومان</p>
-                    </div>
-
-                    <div class="flex gap-2 pt-2">
-                        <button onclick="saveNewInvoice()" class="flex-1 bg-amber-600 text-white py-3 rounded-xl font-bold text-sm cursor-pointer hover:bg-amber-700 shadow-sm">ثبت و کسر از انبار</button>
-                        <button onclick="router.back()" class="px-5 bg-gray-200 text-gray-800 py-3 rounded-xl text-sm font-medium cursor-pointer">انصراف</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderInvoicesList() {
-            const invoices = DB.get('invoices') || [];
-            return `
-                <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
-                    <div class="flex justify-between items-center border-b pb-3">
-                        <h2 class="text-lg font-bold text-gray-800 flex items-center gap-2">📑 لیست فاکتورهای صادرشده</h2>
-                        <button onclick="router.navigate('new-invoice')" class="bg-amber-600 text-white px-4 py-2 rounded-xl text-xs font-bold cursor-pointer hover:bg-amber-700">+ فاکتور جدید</button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-right text-xs">
-                            <thead>
-                                <tr class="bg-gray-100 text-gray-600 border-b">
-                                    <th class="p-3">شماره</th>
-                                    <th class="p-3">مشتری</th>
-                                    <th class="p-3">تاریخ</th>
-                                    <th class="p-3">مبلغ کل</th>
-                                    <th class="p-3">وضعیت</th>
-                                    <th class="p-3 text-center">عملیات</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${invoices.map((inv, index) => `
-                                    <tr class="border-b hover:bg-gray-50">
-                                        <td class="p-3 font-bold">#${inv.id}</td>
-                                        <td class="p-3 font-semibold">${inv.customer}</td>
-                                        <td class="p-3 text-gray-500">${inv.date}</td>
-                                        <td class="p-3 font-bold text-emerald-700">${Number(inv.total || 0).toLocaleString('fa-IR')} تومان</td>
-                                        <td class="p-3"><span class="px-2 py-1 rounded-full text-[10px] ${inv.status === 'تسویه شده' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${inv.status}</span></td>
-                                        <td class="p-3 text-center space-x-2 space-x-reverse">
-                                            <button onclick="router.navigate('preview-invoice', { index: ${index} })" class="text-blue-600 hover:underline">پیش‌نمایش</button>
-                                            <button onclick="deleteInvoice(${index})" class="text-red-600 hover:underline">حذف</button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                    <button onclick="router.back()" class="w-full bg-gray-200 text-gray-800 py-2.5 rounded-xl text-sm font-medium">‹ بازگشت</button>
-                </div>
-            `;
-        }
-
-        function renderCustomers() {
-            const customers = DB.get('customers') || [];
-            return `
-                <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
-                    <div class="flex justify-between items-center border-b pb-3">
-                        <h2 class="text-lg font-bold text-gray-800">👥 دفترچه مشتریان</h2>
-                        <button onclick="openCustomerModal()" class="bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold">+ مشتری جدید</button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-right text-xs">
-                            <thead>
-                                <tr class="bg-gray-100 text-gray-600 border-b">
-                                    <th class="p-3">نام مشتری</th>
-                                    <th class="p-3">شماره تماس</th>
-                                    <th class="p-3">آدرس</th>
-                                    <th class="p-3 text-center">عملیات</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${customers.map((c, idx) => `
-                                    <tr class="border-b hover:bg-gray-50">
-                                        <td class="p-3 font-bold">${c.name}</td>
-                                        <td class="p-3 font-mono">${c.phone || '-'}</td>
-                                        <td class="p-3 text-gray-500">${c.address || '-'}</td>
-                                        <td class="p-3 text-center space-x-2 space-x-reverse">
-                                            <button onclick="openCustomerModal(${idx})" class="text-blue-600 hover:underline">ویرایش</button>
-                                            <button onclick="deleteCustomer(${idx})" class="text-red-600 hover:underline">حذف</button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                    <button onclick="router.back()" class="w-full bg-gray-200 text-gray-800 py-2.5 rounded-xl text-sm font-medium">‹ بازگشت</button>
-                </div>
-
-                <div id="customer-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 hidden z-50">
-                    <div class="bg-white w-full max-w-md p-5 rounded-2xl space-y-4">
-                        <h3 id="cust-modal-title" class="font-bold text-base border-b pb-2">افزودن مشتری جدید</h3>
-                        <input type="hidden" id="edit-cust-idx" value="-1">
-                        <input type="text" id="cust-name-input" placeholder="نام مشتری..." class="w-full p-3 border rounded-xl text-sm">
-                        <input type="text" id="cust-phone-input" placeholder="شماره تماس..." class="w-full p-3 border rounded-xl text-sm">
-                        <textarea id="cust-address-input" placeholder="آدرس..." class="w-full p-3 border rounded-xl text-sm" rows="2"></textarea>
-                        <div class="flex gap-2">
-                            <button onclick="saveCustomerModal()" class="flex-1 bg-blue-600 text-white py-2.5 rounded-xl font-bold">ذخیره</button>
-                            <button onclick="closeCustomerModal()" class="px-4 bg-gray-200 py-2.5 rounded-xl">انصراف</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderProducts() {
-            const products = DB.get('products') || [];
-            return `
-                <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
-                    <div class="flex justify-between items-center border-b pb-3">
-                        <h2 class="text-lg font-bold text-gray-800">📦 بانک کالا و انبار</h2>
-                        <button onclick="openProductModal()" class="bg-purple-600 text-white px-4 py-2 rounded-xl text-xs font-bold">+ کالای جدید</button>
-                    </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-right text-xs">
-                            <thead>
-                                <tr class="bg-gray-100 text-gray-600 border-b">
-                                    <th class="p-3">نام کالا / خدمت</th>
-                                    <th class="p-3">کد</th>
-                                    <th class="p-3">قیمت خرید</th>
-                                    <th class="p-3">قیمت فروش</th>
-                                    <th class="p-3">موجودی</th>
-                                    <th class="p-3 text-center">عملیات</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${products.map((p, idx) => `
-                                    <tr class="border-b hover:bg-gray-50">
-                                        <td class="p-3 font-bold">${p.name}</td>
-                                        <td class="p-3 text-gray-500">${p.code || '-'}</td>
-                                        <td class="p-3">${Number(p.buyPrice || 0).toLocaleString('fa-IR')} ت</td>
-                                        <td class="p-3 font-bold text-emerald-700">${Number(p.sellPrice || 0).toLocaleString('fa-IR')} ت</td>
-                                        <td class="p-3 font-bold ${p.stock <= 5 ? 'text-red-600' : 'text-blue-600'}">${p.stock}</td>
-                                        <td class="p-3 text-center space-x-2 space-x-reverse">
-                                            <button onclick="openProductModal(${idx})" class="text-blue-600 hover:underline">ویرایش</button>
-                                            <button onclick="deleteProduct(${idx})" class="text-red-600 hover:underline">حذف</button>
-                                        </td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-                    </div>
-                    <button onclick="router.back()" class="w-full bg-gray-200 text-gray-800 py-2.5 rounded-xl text-sm font-medium">‹ بازگشت</button>
-                </div>
-
-                <div id="product-modal" class="fixed inset-0 bg-black/50 flex items-center justify-center p-4 hidden z-50">
-                    <div class="bg-white w-full max-w-md p-5 rounded-2xl space-y-3">
-                        <h3 id="prod-modal-title" class="font-bold text-base border-b pb-2">افزودن کالای جدید</h3>
-                        <input type="hidden" id="edit-prod-idx" value="-1">
-                        <input type="text" id="prod-name-input" placeholder="نام کالا..." class="w-full p-2.5 border rounded-xl text-sm">
-                        <input type="text" id="prod-code-input" placeholder="کد کالا..." class="w-full p-2.5 border rounded-xl text-sm">
-                        <div class="grid grid-cols-2 gap-2">
-                            <input type="number" id="prod-buy-input" placeholder="قیمت خرید..." class="p-2.5 border rounded-xl text-sm">
-                            <input type="number" id="prod-sell-input" placeholder="قیمت فروش..." class="p-2.5 border rounded-xl text-sm">
-                        </div>
-                        <input type="number" id="prod-stock-input" placeholder="موجودی اولیه..." class="w-full p-2.5 border rounded-xl text-sm">
-                        <div class="flex gap-2 pt-2">
-                            <button onclick="saveProductModal()" class="flex-1 bg-purple-600 text-white py-2.5 rounded-xl font-bold">ذخیره</button>
-                            <button onclick="closeProductModal()" class="px-4 bg-gray-200 py-2.5 rounded-xl">انصراف</button>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderAccounting() {
-            const invoices = DB.get('invoices') || [];
-            const products = DB.get('products') || [];
-
-            let totalSales = 0;
-            let totalPaid = 0;
-            let totalDebt = 0;
-            let warehouseVal = 0;
-
-            invoices.forEach(inv => {
-                totalSales += (inv.total || 0);
-                if (inv.status === 'تسویه شده') totalPaid += (inv.total || 0);
-                else totalDebt += (inv.total || 0);
-            });
-
-            products.forEach(p => {
-                warehouseVal += (p.buyPrice || 0) * (p.stock || 0);
-            });
-
-            return `
-                <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
-                    <h2 class="text-lg font-bold border-b pb-2">📊 حسابداری و خلاصه وضعیت مالی</h2>
-                    
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl">
-                            <span class="text-xs text-emerald-600 font-semibold">درآمد کل (فروش)</span>
-                            <h3 class="text-xl font-extrabold text-emerald-900 mt-1">${totalSales.toLocaleString('fa-IR')} تومان</h3>
-                        </div>
-                        <div class="bg-blue-50 border border-blue-200 p-4 rounded-2xl">
-                            <span class="text-xs text-blue-600 font-semibold">دریافتی نقد</span>
-                            <h3 class="text-xl font-extrabold text-blue-900 mt-1">${totalPaid.toLocaleString('fa-IR')} تومان</h3>
-                        </div>
-                        <div class="bg-rose-50 border border-rose-200 p-4 rounded-2xl">
-                            <span class="text-xs text-rose-600 font-semibold">طلب از مشتریان</span>
-                            <h3 class="text-xl font-extrabold text-rose-900 mt-1">${totalDebt.toLocaleString('fa-IR')} تومان</h3>
-                        </div>
-                        <div class="bg-amber-50 border border-amber-200 p-4 rounded-2xl">
-                            <span class="text-xs text-amber-700 font-semibold">سرمایه خوابیده در انبار</span>
-                            <h3 class="text-xl font-extrabold text-amber-900 mt-1">${warehouseVal.toLocaleString('fa-IR')} تومان</h3>
-                        </div>
-                    </div>
-
-                    <button onclick="exportCSV()" class="w-full bg-teal-700 text-white py-3 rounded-xl font-bold text-sm">دانلود گزارش خروجی اکسل (CSV)</button>
-                    <button onclick="router.back()" class="w-full bg-gray-200 py-2.5 rounded-xl text-sm font-medium">‹ بازگشت</button>
-                </div>
-            `;
-        }
-
-        function renderReports() {
-            const invoices = DB.get('invoices') || [];
-            return `
-                <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
-                    <h2 class="text-lg font-bold border-b pb-2">📈 گزارش‌ها و آمار فروش</h2>
-                    <div class="p-4 bg-indigo-50 rounded-2xl text-center space-y-2">
-                        <span class="text-xs text-indigo-700 font-semibold">تعداد کل فاکتورها</span>
-                        <h3 class="text-3xl font-extrabold text-indigo-900">${invoices.length}</h3>
-                    </div>
-                    <button onclick="router.back()" class="w-full bg-gray-200 py-2.5 rounded-xl text-sm font-medium">‹ بازگشت</button>
-                </div>
-            `;
-        }
-
-        function renderReminders() {
-            const reminders = DB.get('reminders') || [];
-            return `
-                <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
-                    <div class="flex justify-between items-center border-b pb-3">
-                        <h2 class="text-lg font-bold">⏰ سیستم یادآورها</h2>
-                        <button onclick="addReminderPrompt()" class="bg-rose-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold">+ یادآور جدید</button>
-                    </div>
-                    <div class="space-y-2">
-                        ${reminders.map((r, idx) => `
-                            <div class="p-3 border rounded-xl flex justify-between items-center ${r.done ? 'bg-gray-100 opacity-60' : 'bg-rose-50/50 border-rose-200'}">
-                                <div>
-                                    <h4 class="font-bold text-xs ${r.done ? 'line-through' : ''}">${r.title}</h4>
-                                    <span class="text-[10px] text-gray-500">${r.date}</span>
-                                </div>
-                                <div class="flex gap-2">
-                                    <button onclick="toggleReminder(${idx})" class="text-xs text-emerald-600 font-bold">${r.done ? 'انجام شد' : 'تکمیل'}</button>
-                                    <button onclick="deleteReminder(${idx})" class="text-xs text-red-600">حذف</button>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <button onclick="router.back()" class="w-full bg-gray-200 py-2.5 rounded-xl text-sm font-medium">‹ بازگشت</button>
-                </div>
-            `;
-        }
-
-        function renderNotes() {
-            const notes = DB.get('notes') || [];
-            return `
-                <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
-                    <div class="flex justify-between items-center border-b pb-3">
-                        <h2 class="text-lg font-bold">📝 یادداشت‌ها</h2>
-                        <button onclick="addNotePrompt()" class="bg-amber-700 text-white px-3 py-1.5 rounded-xl text-xs font-bold">+ یادداشت جدید</button>
-                    </div>
-                    <div class="space-y-2">
-                        ${notes.map((n, idx) => `
-                            <div class="p-3 border rounded-xl bg-amber-50/30 space-y-1">
-                                <div class="flex justify-between">
-                                    <h4 class="font-bold text-xs text-amber-900">${n.title}</h4>
-                                    <button onclick="deleteNote(${idx})" class="text-xs text-red-600">حذف</button>
-                                </div>
-                                <p class="text-xs text-gray-600">${n.content}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <button onclick="router.back()" class="w-full bg-gray-200 py-2.5 rounded-xl text-sm font-medium">‹ بازگشت</button>
-                </div>
-            `;
-        }
-
-        function renderProfiles() {
-            const profiles = DB.get('profiles') || [{}, {}];
-            const activeIdx = DB.get('activeProfileIndex') || 0;
-            const p = profiles[activeIdx] || {};
-
-            return `
-                <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
-                    <h2 class="text-lg font-bold border-b pb-2">👤 پروفایل فروشنده (۲ تب)</h2>
-                    <div class="flex gap-2 border-b pb-3">
-                        <button onclick="switchProfileTab(0)" class="px-4 py-2 rounded-xl font-medium text-sm ${activeIdx === 0 ? 'bg-cyan-700 text-white' : 'bg-gray-100'}">پروفایل ۱</button>
-                        <button onclick="switchProfileTab(1)" class="px-4 py-2 rounded-xl font-medium text-sm ${activeIdx === 1 ? 'bg-cyan-700 text-white' : 'bg-gray-100'}">پروفایل ۲</button>
-                    </div>
-
-                    <div class="space-y-3 text-sm">
-                        <input type="text" id="prof-name" value="${p.name || ''}" placeholder="نام فروشگاه..." class="w-full p-3 border rounded-xl">
-                        <input type="text" id="prof-job" value="${p.job || ''}" placeholder="شغل / زمینه فعالیت..." class="w-full p-3 border rounded-xl">
-                        <input type="text" id="prof-phone" value="${p.phone || ''}" placeholder="شماره تماس..." class="w-full p-3 border rounded-xl">
-                        <input type="text" id="prof-card" value="${p.card || ''}" placeholder="شماره کارت بانکی..." class="w-full p-3 border rounded-xl">
-                        <textarea id="prof-address" placeholder="آدرس..." class="w-full p-3 border rounded-xl" rows="2">${p.address || ''}</textarea>
-
-                        <div class="border p-3 rounded-xl text-center space-y-2 bg-gray-50">
-                            <span class="text-xs font-bold block">تصویر مهر فروشنده (PNG)</span>
-                            <input type="file" accept="image/*" onchange="uploadStamp(event)" class="text-xs">
-                            ${p.stamp ? `<img src="${p.stamp}" class="h-16 mx-auto object-contain mt-2">` : ''}
-                        </div>
-
-                        <button onclick="saveProfileData()" class="w-full bg-cyan-700 text-white py-3 rounded-xl font-bold">ذخیره اطلاعات پروفایل</button>
-                    </div>
-                    <button onclick="router.back()" class="w-full bg-gray-200 py-2.5 rounded-xl text-sm font-medium">‹ بازگشت</button>
-                </div>
-            `;
-        }
-
-        function renderBackup() {
-            return `
-                <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
-                    <h2 class="text-lg font-bold border-b pb-2">💾 پشتیبان‌گیری و بازیابی اطلاعات</h2>
-                    <p class="text-xs text-gray-600">می‌توانید تمام فاکتورها، مشتریان و اطلاعات انبار را دانلود کرده یا بازیابی کنید.</p>
-                    <div class="space-y-2">
-                        <button onclick="downloadBackup()" class="w-full bg-slate-700 text-white py-3 rounded-xl font-bold text-sm">دریافت فایل پشتیبان (JSON)</button>
-                        <div class="border p-3 rounded-xl text-center bg-gray-50 space-y-2">
-                            <span class="text-xs font-bold block">بازیابی از فایل پشتیبان</span>
-                            <input type="file" accept=".json" onchange="restoreBackup(event)" class="text-xs">
-                        </div>
-                    </div>
-                    <button onclick="router.back()" class="w-full bg-gray-200 py-2.5 rounded-xl text-sm font-medium">‹ بازگشت</button>
-                </div>
-            `;
-        }
-
-        function renderLicense() {
-            const lic = DB.get('factor_license') || 'غیرفعال';
-            return `
-                <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
-                    <h2 class="text-lg font-bold border-b pb-2">🔑 وضعیت لایسنس برنامه</h2>
-                    <div class="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl text-emerald-900 text-sm space-y-2">
-                        <span class="font-bold block">وضعیت: برنامه کاملاً فعال است ✓</span>
-                        <p class="text-xs">کلید لایسنس مادام‌العمر شما: <span class="font-mono font-bold">${lic}</span></p>
-                    </div>
-                    <button onclick="router.back()" class="w-full bg-gray-200 py-2.5 rounded-xl text-sm font-medium">‹ بازگشت</button>
-                </div>
-            `;
-        }
-
-        function renderSettings() {
-            const settings = DB.get('settings') || { theme: 'theme-classic', currency: 'تومان' };
-            return `
-                <div class="bg-white p-5 rounded-2xl shadow-sm space-y-5">
-                    <h2 class="text-lg font-bold border-b pb-2">⚙️ تنظیمات و پوسته‌های برنامه</h2>
-                    <div class="space-y-2">
-                        <label class="block text-xs font-semibold text-gray-700">انتخاب پوسته برنامه (۱۰ پوسته متنوع)</label>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-                            <button onclick="changeTheme('theme-classic')" class="p-2.5 border rounded-xl font-bold bg-amber-50">کلاسیک طلایی</button>
-                            <button onclick="changeTheme('theme-minimal-gray')" class="p-2.5 border rounded-xl font-bold bg-gray-100">مینیمال خاکستری</button>
-                            <button onclick="changeTheme('theme-minimal-blue')" class="p-2.5 border rounded-xl font-bold bg-blue-50">مینیمال آبی</button>
-                            <button onclick="changeTheme('theme-classic-crimson')" class="p-2.5 border rounded-xl font-bold bg-red-50">زرشکی</button>
-                            <button onclick="changeTheme('theme-traditional-gold')" class="p-2.5 border rounded-xl font-bold bg-yellow-50">سنتی لاجوردی</button>
-                            <button onclick="changeTheme('theme-traditional-red')" class="p-2.5 border rounded-xl font-bold bg-orange-50">قالی سرخ</button>
-                            <button onclick="changeTheme('theme-modern-gold')" class="p-2.5 border rounded-xl font-bold bg-stone-50">مدرن گرادیانت</button>
-                            <button onclick="changeTheme('theme-modern-lapis')" class="p-2.5 border rounded-xl font-bold bg-sky-50">مدرن اسلیمی</button>
-                            <button onclick="changeTheme('theme-luxurious')" class="p-2.5 border rounded-xl font-bold bg-gray-900 text-amber-400">لوکس مشکی</button>
-                            <button onclick="changeTheme('theme-luxurious-red')" class="p-2.5 border rounded-xl font-bold bg-red-950 text-amber-300">لوکس قرمز</button>
-                        </div>
-                    </div>
-                    <div class="p-4 bg-gray-50 border rounded-xl text-xs space-y-1">
-                        <p><strong>پشتیبانی:</strong> V.goldypoor@gmail.com</p>
-                        <p><strong>تلفن تماس:</strong> 09371226509</p>
-                    </div>
-                    <button onclick="router.back()" class="w-full bg-gray-200 py-2.5 rounded-xl text-sm font-medium">‹ بازگشت</button>
-                </div>
-            `;
-        }
-
-        function renderAdmin() {
-            return `
-                <div class="bg-white p-5 rounded-2xl shadow-sm space-y-4">
-                    <h2 class="text-lg font-bold border-b pb-2">🔐 پنل مدیریت ارشد</h2>
-                    <p class="text-xs text-gray-600">تنظیمات پیشرفته سیستم و ایجاد کلید لایسنس.</p>
-                    <button onclick="router.back()" class="w-full bg-gray-200 py-2.5 rounded-xl text-sm font-medium">‹ بازگشت</button>
-                </div>
-            `;
-        }
-
-        function renderPreviewInvoice(params) {
-            const invoices = DB.get('invoices') || [];
-            const idx = params.index !== undefined ? params.index : 0;
-            const inv = invoices[idx] || { id: '1001', customer: 'مشتری نمونه', total: 0, items: [] };
-            
-            const profiles = DB.get('profiles') || [{}, {}];
-            const activeIdx = DB.get('activeProfileIndex') || 0;
-            const seller = profiles[activeIdx] || {};
-
-            return `
-                <div class="space-y-4">
-                    <div id="printable-invoice-card" class="bg-white p-6 rounded-2xl border shadow-md space-y-4 text-xs">
-                        <div class="bg-emerald-700 text-white p-3 rounded-xl flex justify-between items-center">
-                            <div>
-                                <h2 class="font-bold text-base">${seller.name || 'فروشگاه فاکتوراپ'}</h2>
-                                <p class="text-[10px] text-emerald-100">${seller.job || 'خدمات و فروش کالا'}</p>
-                            </div>
-                            <div class="text-left">
-                                <span class="block font-bold">فاکتور فروش #${inv.id}</span>
-                                <span class="text-[10px] opacity-80">${inv.date}</span>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-3 border p-3 rounded-xl bg-gray-50/50">
-                            <div>
-                                <span class="block font-bold text-gray-700">فروشنده:</span>
-                                <p class="text-gray-600">${seller.name || 'نامشخص'}</p>
-                                <p class="text-gray-500">تلفن: ${seller.phone || '-'}</p>
-                            </div>
-                            <div>
-                                <span class="block font-bold text-gray-700">خریدار:</span>
-                                <p class="text-gray-600">${inv.customer}</p>
-                            </div>
-                        </div>
-
-                        <table class="w-full text-right border-collapse">
-                            <thead>
-                                <tr class="bg-gray-100 border-b">
-                                    <th class="p-2 border">ردیف</th>
-                                    <th class="p-2 border">شرح کالا / خدمات</th>
-                                    <th class="p-2 border">تعداد</th>
-                                    <th class="p-2 border">قیمت واحد</th>
-                                    <th class="p-2 border">مبلغ کل</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${(inv.items || []).map((item, i) => `
-                                    <tr class="border-b">
-                                        <td class="p-2 border text-center">${i + 1}</td>
-                                        <td class="p-2 border font-medium">${item.desc}</td>
-                                        <td class="p-2 border text-center">${item.qty}</td>
-                                        <td class="p-2 border">${Number(item.price).toLocaleString('fa-IR')} ت</td>
-                                        <td class="p-2 border font-bold text-emerald-700">${Number(item.qty * item.price).toLocaleString('fa-IR')} ت</td>
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
-
-                        <div class="flex justify-between items-center border-t pt-3 font-bold text-sm text-gray-800">
-                            <span>مبلغ کل قابل پرداخت:</span>
-                            <span class="text-emerald-700 text-base">${Number(inv.total || 0).toLocaleString('fa-IR')} تومان</span>
-                        </div>
-
-                        <div class="pt-6 flex justify-between items-center text-center">
-                            <span class="text-xs text-gray-500">امضای خریدار</span>
-                            <div class="w-24 h-24 border border-dashed rounded-xl flex items-center justify-center overflow-hidden">
-                                ${seller.stamp ? `<img src="${seller.stamp}" class="object-contain w-full h-full -rotate-6">` : '<span class="text-[10px] text-gray-400">مهر فروشنده</span>'}
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                        <button onclick="downloadPDF()" class="bg-amber-600 text-white py-2.5 rounded-xl font-bold text-xs">دانلود PDF</button>
-                        <button onclick="copySMS(${idx})" class="bg-emerald-600 text-white py-2.5 rounded-xl font-bold text-xs">کپی متن پیامک</button>
-                        <button onclick="printThermal(${idx})" class="bg-purple-600 text-white py-2.5 rounded-xl font-bold text-xs">چاپ حرارتی</button>
-                        <button onclick="router.back()" class="bg-gray-200 text-gray-800 py-2.5 rounded-xl text-xs font-medium">بازگشت</button>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Logic & Event Handlers
+        // Hardware back button support
         window.addEventListener('popstate', (event) => {
             if (event.state && event.state.view) {
                 router.history.pop();
@@ -891,28 +738,186 @@
         });
         window.history.replaceState({ view: 'home' }, '', '#home');
 
+        // Helpers & Handlers
+        function switchProfileTab(idx) {
+            DB.set('activeProfileIndex', idx);
+            router.render();
+        }
+
+        let tempImages = {};
+        function handleImageUpload(e, type) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                tempImages[type] = ev.target.result;
+                const prev = document.getElementById(`preview-${type}`);
+                const ph = document.getElementById(`placeholder-${type}`);
+                if (prev && ph) {
+                    prev.src = ev.target.result;
+                    prev.classList.remove('hidden');
+                    ph.classList.add('hidden');
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function saveProfileData() {
+            const profiles = DB.get('profiles') || [{}, {}];
+            const activeIdx = DB.get('activeProfileIndex') || 0;
+            profiles[activeIdx] = {
+                name: document.getElementById('prof-name').value,
+                job: document.getElementById('prof-job').value,
+                phone: document.getElementById('prof-phone').value,
+                card: document.getElementById('prof-card').value,
+                sheba: document.getElementById('prof-sheba').value,
+                address: document.getElementById('prof-address').value,
+                logo: tempImages.logo !== undefined ? tempImages.logo : (profiles[activeIdx].logo || ''),
+                avatar: tempImages.avatar !== undefined ? tempImages.avatar : (profiles[activeIdx].avatar || ''),
+                stamp: tempImages.stamp !== undefined ? tempImages.stamp : (profiles[activeIdx].stamp || '')
+            };
+            DB.set('profiles', profiles);
+            tempImages = {};
+            alert('پروفایل با موفقیت ذخیره شد.');
+            router.navigate('home');
+        }
+
+        function openProductModal(index = -1) {
+            document.getElementById('edit-prod-index').value = index;
+            const modal = document.getElementById('product-modal');
+            const title = document.getElementById('prod-modal-title');
+            if (index >= 0) {
+                const p = (DB.get('products') || [])[index];
+                title.innerText = 'ویرایش کالا';
+                document.getElementById('p-name').value = p.name || '';
+                document.getElementById('p-code').value = p.code || '';
+                document.getElementById('p-unit').value = p.unit || 'عدد';
+                document.getElementById('p-buy').value = p.buyPrice || 0;
+                document.getElementById('p-sell').value = p.sellPrice || 0;
+                document.getElementById('p-stock').value = p.stock || 0;
+            } else {
+                title.innerText = 'افزودن کالای جدید';
+                document.getElementById('p-name').value = '';
+                document.getElementById('p-code').value = '';
+                document.getElementById('p-unit').value = 'عدد';
+                document.getElementById('p-buy').value = 0;
+                document.getElementById('p-sell').value = 0;
+                document.getElementById('p-stock').value = 10;
+            }
+            modal.classList.remove('hidden');
+        }
+        function closeProductModal() { document.getElementById('product-modal').classList.add('hidden'); }
+
+        function saveProduct() {
+            const index = parseInt(document.getElementById('edit-prod-index').value);
+            const name = document.getElementById('p-name').value.trim();
+            if (!name) { alert('نام کالا الزامی است.'); return; }
+            const prod = {
+                name: name,
+                code: document.getElementById('p-code').value.trim(),
+                unit: document.getElementById('p-unit').value.trim() || 'عدد',
+                buyPrice: parseFloat(document.getElementById('p-buy').value) || 0,
+                sellPrice: parseFloat(document.getElementById('p-sell').value) || 0,
+                stock: parseFloat(document.getElementById('p-stock').value) || 0
+            };
+            const products = DB.get('products') || [];
+            if (index >= 0) products[index] = prod; else products.push(prod);
+            DB.set('products', products);
+            closeProductModal();
+            router.render();
+        }
+        function deleteProduct(index) {
+            if (confirm('حذف شود؟')) {
+                const products = DB.get('products') || [];
+                products.splice(index, 1);
+                DB.set('products', products);
+                router.render();
+            }
+        }
+        function filterProducts() {
+            const q = document.getElementById('search-product').value.toLowerCase();
+            document.querySelectorAll('.product-row').forEach(row => {
+                row.style.display = row.querySelector('.prod-name').innerText.toLowerCase().includes(q) ? '' : 'none';
+            });
+        }
+
+        function openCustomerModal(index = -1) {
+            document.getElementById('edit-cust-index').value = index;
+            const modal = document.getElementById('customer-modal');
+            const title = document.getElementById('cust-modal-title');
+            if (index >= 0) {
+                const c = (DB.get('customers') || [])[index];
+                title.innerText = 'ویرایش مشتری';
+                document.getElementById('c-name').value = c.name || '';
+                document.getElementById('c-phone').value = c.phone || '';
+                document.getElementById('c-address').value = c.address || '';
+            } else {
+                title.innerText = 'افزودن مشتری';
+                document.getElementById('c-name').value = '';
+                document.getElementById('c-phone').value = '';
+                document.getElementById('c-address').value = '';
+            }
+            modal.classList.remove('hidden');
+        }
+        function closeCustomerModal() { document.getElementById('customer-modal').classList.add('hidden'); }
+
+        function saveCustomer() {
+            const index = parseInt(document.getElementById('edit-cust-index').value);
+            const name = document.getElementById('c-name').value.trim();
+            if (!name) { alert('نام مشتری الزامی است.'); return; }
+            const cust = {
+                name: name,
+                phone: document.getElementById('c-phone').value.trim(),
+                address: document.getElementById('c-address').value.trim()
+            };
+            const customers = DB.get('customers') || [];
+            if (index >= 0) customers[index] = cust; else customers.push(cust);
+            DB.set('customers', customers);
+            closeCustomerModal();
+            router.render();
+        }
+        function deleteCustomer(index) {
+            if (confirm('حذف شود؟')) {
+                const customers = DB.get('customers') || [];
+                customers.splice(index, 1);
+                DB.set('customers', customers);
+                router.render();
+            }
+        }
+        function filterCustomers() {
+            const q = document.getElementById('search-customer').value.toLowerCase();
+            document.querySelectorAll('.customer-row').forEach(row => {
+                const name = row.querySelector('.cust-name').innerText.toLowerCase();
+                const phone = row.querySelector('.cust-phone').innerText.toLowerCase();
+                row.style.display = (name.includes(q) || phone.includes(q)) ? '' : 'none';
+            });
+        }
+
         function onCustomerSelectChange() {
             const val = document.getElementById('inv-customer-select').value;
             if (val) document.getElementById('inv-customer-name').value = val;
         }
 
-        function autoFillProductPrice(input) {
-            const val = input.value;
-            const products = DB.get('products') || [];
-            const p = products.find(item => item.name === val);
-            if (p) {
-                const row = input.parentElement;
-                row.querySelector('.item-price').value = p.sellPrice;
-                calculateInvoiceTotal();
-            }
+        function onProductRowSelect(selectEl) {
+            const selectedOpt = selectEl.options[selectEl.selectedIndex];
+            const price = selectedOpt.getAttribute('data-price') || 0;
+            const row = selectEl.closest('.invoice-row-item');
+            row.querySelector('.item-desc').value = selectEl.value;
+            row.querySelector('.item-price').value = price;
+            calculateInvoiceTotal();
         }
 
         function addInvoiceRow() {
             const container = document.getElementById('invoice-rows');
+            const products = DB.get('products') || [];
             const row = document.createElement('div');
             row.className = 'flex gap-2 items-center bg-gray-50 p-2 rounded-xl border invoice-row-item';
             row.innerHTML = `
-                <input type="text" placeholder="شرح کالا یا خدمات..." list="products-datalist" class="flex-1 p-2 border rounded-lg text-xs bg-white item-desc" onchange="autoFillProductPrice(this)">
+                <select class="p-2 border rounded-lg text-xs bg-white item-select" onchange="onProductRowSelect(this)">
+                    <option value="">-- انبار --</option>
+                    ${products.map(p => `<option value="${p.name}" data-price="${p.sellPrice || 0}">${p.name} (${p.stock || 0})</option>`).join('')}
+                </select>
+                <input type="text" placeholder="شرح کالا / خدمات" class="flex-1 p-2 border rounded-lg text-xs bg-white item-desc">
                 <input type="number" value="1" min="1" placeholder="تعداد" class="w-16 p-2 border rounded-lg text-xs bg-white item-qty" oninput="calculateInvoiceTotal()">
                 <input type="number" value="0" min="0" placeholder="قیمت واحد" class="w-28 p-2 border rounded-lg text-xs bg-white item-price" oninput="calculateInvoiceTotal()">
                 <span class="text-xs font-bold text-gray-600 w-24 text-center item-sum">۰ تومان</span>
@@ -920,379 +925,195 @@
             `;
             container.appendChild(row);
         }
-
         function removeInvoiceRow(btn) {
-            const rows = document.querySelectorAll('.invoice-row-item');
-            if (rows.length > 1) {
+            if (document.querySelectorAll('.invoice-row-item').length > 1) {
                 btn.parentElement.remove();
                 calculateInvoiceTotal();
             }
         }
-
         function calculateInvoiceTotal() {
-            let subTotal = 0;
-            const rows = document.querySelectorAll('.invoice-row-item');
-            rows.forEach(row => {
-                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
-                const price = parseFloat(row.querySelector('.item-price').value) || 0;
-                const sum = qty * price;
+            let sub = 0;
+            document.querySelectorAll('.invoice-row-item').forEach(row => {
+                const q = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const p = parseFloat(row.querySelector('.item-price').value) || 0;
+                const sum = q * p;
                 row.querySelector('.item-sum').innerText = sum.toLocaleString('fa-IR') + ' تومان';
-                subTotal += sum;
+                sub += sum;
             });
-
-            const discount = parseFloat(document.getElementById('discount-val').value) || 0;
-            const finalTotal = Math.max(0, subTotal - discount);
-
-            document.getElementById('sub-total-val').innerText = subTotal.toLocaleString('fa-IR') + ' تومان';
-            document.getElementById('final-total-val').innerText = finalTotal.toLocaleString('fa-IR') + ' تومان';
-            document.getElementById('total-words-val').innerText = 'مبلغ به حروف: ' + numToWords(finalTotal) + ' تومان';
+            const disc = parseFloat(document.getElementById('discount-val').value) || 0;
+            document.getElementById('sub-total-val').innerText = sub.toLocaleString('fa-IR') + ' تومان';
+            document.getElementById('final-total-val').innerText = Math.max(0, sub - disc).toLocaleString('fa-IR') + ' تومان';
         }
 
         function saveNewInvoice() {
-            let customerName = document.getElementById('inv-customer-name').value.trim();
-            const customerPhone = document.getElementById('inv-customer-phone').value.trim();
-            const selectedDropdown = document.getElementById('inv-customer-select').value;
+            let custName = document.getElementById('inv-customer-name').value.trim();
+            const custPhone = document.getElementById('inv-customer-phone').value.trim();
+            const selectVal = document.getElementById('inv-customer-select').value;
+            if (!custName && selectVal) custName = selectVal;
+            if (!custName) { alert('لطفاً نام مشتری را مشخص کنید.'); return; }
 
-            if (!customerName && selectedDropdown) customerName = selectedDropdown;
-            if (!customerName) {
-                alert('لطفاً نام مشتری را مشخص کنید.');
-                return;
-            }
-
-            // Customer auto register
+            // Add new customer if not exists
             const customers = DB.get('customers') || [];
-            if (!customers.some(c => c.name === customerName)) {
-                customers.push({ id: Date.now(), name: customerName, phone: customerPhone, address: '-' });
+            if (!customers.some(c => c.name === custName)) {
+                customers.push({ name: custName, phone: custPhone, address: '-' });
                 DB.set('customers', customers);
             }
 
-            const number = document.getElementById('inv-number').value.trim();
-            const date = document.getElementById('inv-date').value.trim() || getShamsiToday();
-            const status = document.getElementById('inv-status').value;
-            
-            let subTotal = 0;
             const items = [];
-            const rows = document.querySelectorAll('.invoice-row-item');
+            let sub = 0;
             const products = DB.get('products') || [];
 
-            rows.forEach(row => {
-                const desc = row.querySelector('.item-desc').value.trim() || 'کالا / خدمات';
+            let hasError = false;
+            document.querySelectorAll('.invoice-row-item').forEach(row => {
+                const desc = row.querySelector('.item-desc').value.trim() || 'خدمات';
                 const qty = parseFloat(row.querySelector('.item-qty').value) || 1;
                 const price = parseFloat(row.querySelector('.item-price').value) || 0;
-                items.push({ desc, qty, price });
-                subTotal += (qty * price);
 
-                // Auto deduct stock
-                const pIdx = products.findIndex(p => p.name === desc);
-                if (pIdx >= 0) {
-                    products[pIdx].stock = Math.max(0, products[pIdx].stock - qty);
+                // Smart Inventory Deduction
+                const prod = products.find(p => p.name === desc);
+                if (prod) {
+                    if (prod.stock < qty) {
+                        alert(`موجودی کالای "${prod.name}" در انبار کافی نیست! (موجودی فعلی: ${prod.stock})`);
+                        hasError = true;
+                    } else {
+                        prod.stock -= qty;
+                    }
                 }
+
+                items.push({ desc, qty, price });
+                sub += (qty * price);
             });
 
+            if (hasError) return;
             DB.set('products', products);
 
-            const discount = parseFloat(document.getElementById('discount-val').value) || 0;
-            const total = Math.max(0, subTotal - discount);
+            const disc = parseFloat(document.getElementById('discount-val').value) || 0;
+            const newInv = {
+                id: document.getElementById('inv-number').value.trim(),
+                customer: custName,
+                date: document.getElementById('inv-date').value.trim() || getShamsiToday(),
+                items: items,
+                total: Math.max(0, sub - disc),
+                status: document.getElementById('inv-status').value
+            };
 
-            const newInvoice = { id: number, customer: customerName, date: date, items: items, total: total, status: status };
             const invoices = DB.get('invoices') || [];
-            invoices.unshift(newInvoice);
+            invoices.unshift(newInv);
             DB.set('invoices', invoices);
 
-            showToast('فاکتور با موفقیت ثبت شد و انبار به روزرسانی گردید.');
+            alert('فاکتور با موفقیت ثبت شد و از انبار کسر گردید.');
             router.navigate('invoices-list');
         }
 
-        function deleteInvoice(index) {
-            if (confirm('آیا از حذف این فاکتور اطمینان دارید؟')) {
-                const invoices = DB.get('invoices') || [];
-                invoices.splice(index, 1);
-                DB.set('invoices', invoices);
+        function deleteInvoice(i) {
+            if (confirm('حذف فاکتور؟')) {
+                const invs = DB.get('invoices') || [];
+                invs.splice(i, 1);
+                DB.set('invoices', invs);
                 router.render();
             }
         }
 
-        function copySMS(index) {
-            const invoices = DB.get('invoices') || [];
-            const inv = invoices[index];
-            const txt = `مشتری گرامی ${inv.customer}\nفاکتور #${inv.id} به مبلغ ${Number(inv.total).toLocaleString('fa-IR')} تومان ثبت گردید.\nبا تشکر`;
-            navigator.clipboard.writeText(txt);
-            showToast('✓ متن پیامک با موفقیت کپی شد');
-        }
-
-        function printThermal(index) {
-            const invoices = DB.get('invoices') || [];
-            const inv = invoices[index];
-            const printArea = document.getElementById('thermal-print-area');
-            printArea.innerHTML = `
-                <div style="text-align:center; padding:10px;">
-                    <h3>فاکتور فروش #${inv.id}</h3>
-                    <p>مشتری: ${inv.customer}</p>
-                    <hr>
-                    ${inv.items.map(i => `<p>${i.desc} - ${i.qty} عدد - ${Number(i.price * i.qty).toLocaleString('fa-IR')} تومان</p>`).join('')}
-                    <hr>
-                    <h4>مبلغ کل: ${Number(inv.total).toLocaleString('fa-IR')} تومان</h4>
-                </div>
-            `;
-            window.print();
-        }
-
-        function downloadPDF() {
-            const element = document.getElementById('printable-invoice-card');
-            html2canvas(element, { scale: 2 }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
-                const imgWidth = 210;
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-                pdf.save('factor.pdf');
-            });
-        }
-
-        function openCustomerModal(idx = -1) {
-            document.getElementById('edit-cust-idx').value = idx;
-            const modal = document.getElementById('customer-modal');
-            if (idx >= 0) {
-                const customers = DB.get('customers') || [];
-                const c = customers[idx];
-                document.getElementById('cust-name-input').value = c.name;
-                document.getElementById('cust-phone-input').value = c.phone || '';
-                document.getElementById('cust-address-input').value = c.address || '';
-            } else {
-                document.getElementById('cust-name-input').value = '';
-                document.getElementById('cust-phone-input').value = '';
-                document.getElementById('cust-address-input').value = '';
-            }
-            modal.classList.remove('hidden');
-        }
-        function closeCustomerModal() { document.getElementById('customer-modal').classList.add('hidden'); }
-        function saveCustomerModal() {
-            const idx = parseInt(document.getElementById('edit-cust-idx').value);
-            const name = document.getElementById('cust-name-input').value.trim();
-            if (!name) return;
-            const customers = DB.get('customers') || [];
-            const data = { id: Date.now(), name, phone: document.getElementById('cust-phone-input').value, address: document.getElementById('cust-address-input').value };
-            if (idx >= 0) customers[idx] = data;
-            else customers.push(data);
-            DB.set('customers', customers);
-            closeCustomerModal();
+        function changeTheme(theme) {
+            const s = DB.get('settings') || {};
+            s.theme = theme;
+            DB.set('settings', s);
+            applySettings();
             router.render();
         }
-        function deleteCustomer(idx) {
-            if (confirm('حذف مشتری؟')) {
-                const customers = DB.get('customers') || [];
-                customers.splice(idx, 1);
-                DB.set('customers', customers);
-                router.render();
-            }
+        function saveCurrency() {
+            const s = DB.get('settings') || {};
+            s.currency = document.getElementById('currency-select').value;
+            DB.set('settings', s);
         }
-
-        function openProductModal(idx = -1) {
-            document.getElementById('edit-prod-idx').value = idx;
-            const modal = document.getElementById('product-modal');
-            if (idx >= 0) {
-                const products = DB.get('products') || [];
-                const p = products[idx];
-                document.getElementById('prod-name-input').value = p.name;
-                document.getElementById('prod-code-input').value = p.code || '';
-                document.getElementById('prod-buy-input').value = p.buyPrice || 0;
-                document.getElementById('prod-sell-input').value = p.sellPrice || 0;
-                document.getElementById('prod-stock-input').value = p.stock || 0;
-            } else {
-                document.getElementById('prod-name-input').value = '';
-                document.getElementById('prod-code-input').value = '';
-                document.getElementById('prod-buy-input').value = 0;
-                document.getElementById('prod-sell-input').value = 0;
-                document.getElementById('prod-stock-input').value = 10;
-            }
-            modal.classList.remove('hidden');
-        }
-        function closeProductModal() { document.getElementById('product-modal').classList.add('hidden'); }
-        function saveProductModal() {
-            const idx = parseInt(document.getElementById('edit-prod-idx').value);
-            const name = document.getElementById('prod-name-input').value.trim();
-            if (!name) return;
-            const products = DB.get('products') || [];
-            const data = {
-                name,
-                code: document.getElementById('prod-code-input').value,
-                buyPrice: parseFloat(document.getElementById('prod-buy-input').value) || 0,
-                sellPrice: parseFloat(document.getElementById('prod-sell-input').value) || 0,
-                stock: parseFloat(document.getElementById('prod-stock-input').value) || 0
-            };
-            if (idx >= 0) products[idx] = data;
-            else products.push(data);
-            DB.set('products', products);
-            closeProductModal();
-            router.render();
-        }
-        function deleteProduct(idx) {
-            if (confirm('حذف کالا؟')) {
-                const products = DB.get('products') || [];
-                products.splice(idx, 1);
-                DB.set('products', products);
-                router.render();
-            }
-        }
-
-        function addReminderPrompt() {
-            const title = prompt('عنوان یادآور:');
-            if (title) {
-                const reminders = DB.get('reminders') || [];
-                reminders.push({ id: Date.now(), title, date: getShamsiToday(), done: false });
-                DB.set('reminders', reminders);
-                router.render();
-            }
-        }
-        function toggleReminder(idx) {
-            const reminders = DB.get('reminders') || [];
-            reminders[idx].done = !reminders[idx].done;
-            DB.set('reminders', reminders);
-            router.render();
-        }
-        function deleteReminder(idx) {
-            const reminders = DB.get('reminders') || [];
-            reminders.splice(idx, 1);
-            DB.set('reminders', reminders);
+        function saveFontSize() {
+            const s = DB.get('settings') || {};
+            s.fontSize = document.getElementById('fontsize-select').value;
+            DB.set('settings', s);
+            applySettings();
             router.render();
         }
 
-        function addNotePrompt() {
-            const title = prompt('عنوان یادداشت:');
-            if (title) {
-                const content = prompt('متن یادداشت:');
-                const notes = DB.get('notes') || [];
-                notes.push({ id: Date.now(), title, content: content || '' });
-                DB.set('notes', notes);
-                router.render();
-            }
-        }
-        function deleteNote(idx) {
+        function openNoteModal() { document.getElementById('note-modal').classList.remove('hidden'); }
+        function saveNote() {
+            const title = document.getElementById('note-title').value.trim();
+            const text = document.getElementById('note-text').value.trim();
+            if (!title) return;
             const notes = DB.get('notes') || [];
-            notes.splice(idx, 1);
+            notes.push({ title, text });
+            DB.set('notes', notes);
+            document.getElementById('note-modal').classList.add('hidden');
+            router.render();
+        }
+        function deleteNote(i) {
+            const notes = DB.get('notes') || [];
+            notes.splice(i, 1);
             DB.set('notes', notes);
             router.render();
         }
 
-        function switchProfileTab(idx) {
-            DB.set('activeProfileIndex', idx);
-            router.render();
+        function downloadPDF() {
+            const el = document.getElementById('printable-invoice-card');
+            html2canvas(el, { scale: 2 }).then(canvas => {
+                const img = canvas.toDataURL('image/png');
+                const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+                pdf.addImage(img, 'PNG', 0, 0, 210, canvas.height * 210 / canvas.width);
+                pdf.save('factor.pdf');
+            });
+        }
+        function printThermal() {
+            const content = document.getElementById('printable-invoice-card').innerHTML;
+            const win = window.open('', '', 'height=600,width=400');
+            win.document.write('<html><head><title>چاپ فیش</title><style>body{font-family:Vazirmatn,sans-serif;direction:rtl;padding:10px;font-size:12px;}</style></head><body>');
+            win.document.write(content);
+            win.document.write('</body></html>');
+            win.document.close();
+            win.print();
+        }
+        function shareWhatsApp() {
+            const text = encodeURIComponent('سلام، فاکتور خرید شما از فروشگاه صادر شد. با تشکر از خرید شما.');
+            window.open(`https://wa.me/?text=${text}`, '_blank');
         }
 
-        function saveProfileData() {
-            const profiles = DB.get('profiles') || [{}, {}];
-            const idx = DB.get('activeProfileIndex') || 0;
-            profiles[idx] = {
-                ...profiles[idx],
-                name: document.getElementById('prof-name').value,
-                job: document.getElementById('prof-job').value,
-                phone: document.getElementById('prof-phone').value,
-                card: document.getElementById('prof-card').value,
-                address: document.getElementById('prof-address').value
-            };
-            DB.set('profiles', profiles);
-            showToast('پروفایل با موفقیت ذخیره شد.');
-        }
-
-        function uploadStamp(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                const profiles = DB.get('profiles') || [{}, {}];
-                const idx = DB.get('activeProfileIndex') || 0;
-                profiles[idx].stamp = evt.target.result;
-                DB.set('profiles', profiles);
-                router.render();
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function downloadBackup() {
+        function exportData() {
             const data = {
                 profiles: DB.get('profiles'),
                 customers: DB.get('customers'),
                 products: DB.get('products'),
                 invoices: DB.get('invoices'),
-                reminders: DB.get('reminders'),
                 notes: DB.get('notes'),
                 settings: DB.get('settings')
             };
-            const str = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
-            const anchor = document.createElement('a');
-            anchor.setAttribute("href", str);
-            anchor.setAttribute("download", `backup-factorapp-${getShamsiToday().replace(/\//g, '-')}.json`);
-            document.body.appendChild(anchor);
-            anchor.click();
-            anchor.remove();
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `factoorsaz-backup-${getShamsiToday().replace(/\//g, '-')}.json`;
+            a.click();
         }
-
-        function restoreBackup(e) {
+        function importData(e) {
             const file = e.target.files[0];
             if (!file) return;
             const reader = new FileReader();
-            reader.onload = function(evt) {
+            reader.onload = function(ev) {
                 try {
-                    const data = JSON.parse(evt.target.result);
+                    const data = JSON.parse(ev.target.result);
+                    if (data.profiles) DB.set('profiles', data.profiles);
                     if (data.customers) DB.set('customers', data.customers);
                     if (data.products) DB.set('products', data.products);
                     if (data.invoices) DB.set('invoices', data.invoices);
-                    if (data.profiles) DB.set('profiles', data.profiles);
-                    if (data.reminders) DB.set('reminders', data.reminders);
                     if (data.notes) DB.set('notes', data.notes);
-                    alert('اطلاعات با موفقیت بازیابی شدند.');
+                    if (data.settings) DB.set('settings', data.settings);
+                    alert('اطلاعات با موفقیت بازیابی شد.');
                     router.navigate('home');
                 } catch {
-                    alert('فایل پشتیبان معتبر نیست.');
+                    alert('فایل پشتیبان نامعتبر است.');
                 }
             };
             reader.readAsText(file);
         }
 
-        function exportCSV() {
-            const invoices = DB.get('invoices') || [];
-            let csv = "\uFEFFشماره,مشتری,تاریخ,مبلغ,وضعیت\n";
-            invoices.forEach(inv => {
-                csv += `${inv.id},${inv.customer},${inv.date},${inv.total},${inv.status}\n`;
-            });
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
-            link.download = `report-invoices-${getShamsiToday().replace(/\//g, '-')}.csv`;
-            link.click();
-        }
-
-        function changeTheme(themeName) {
-            const settings = DB.get('settings') || {};
-            settings.theme = themeName;
-            DB.set('settings', settings);
-            applySavedTheme();
-            router.render();
-        }
-
-        // Hidden Triple-Click Admin Panel Activation
-        let clickCnt = 0;
-        document.getElementById('logo-header-click').addEventListener('click', () => {
-            clickCnt++;
-            if (clickCnt >= 3) {
-                clickCnt = 0;
-                router.navigate('admin');
-            }
-        });
-
         router.render();
     </script>
 </body>
 </html>
-```
-
-### تغییرات و قابلیت‌های کامل اضافه شده:
-1. **انبارداری هوشمند (کاهش خودکار موجودی):** به محض ثبت فاکتور جدید، تعداد اقلام فروخته‌شده از موجودی کالا در بخش «کالا و خدمات» کسر می‌شود.
-2. **پشتیبانی از چاپ حرارتی:** دکمه چاپ رسید ۵۸/۸۰ میلی‌متری مخصوص فیش‌پرینترها اضافه شد.
-3. **اشتراک‌گذاری و کپی متن پیامک:** کپی سریع متن اطلاع‌رسانی فاکتور با پیغام «✓ متن پیامک با موفقیت کپی شد».
-4. **یادآورها و یادداشت‌های مستقل:** سیستم مدیریت کارهای معوقه و یادداشت‌های سریع با بنر اطلاع‌رسانی در صفحه اصلی.
-5. **پشتیبان‌گیری و بازیابی کامل (Backup/Restore):** دانلود فایل JSON پشتیبان و بازیابی یک‌کلیکه اطلاعات.
-6. **تبدیل هوشمند مبلغ به حروف فارسی:** نمایش دقیق مبلغ فاکتور به حروف.
-7. **۱۰ پوسته کامل و تعاملی:** قابلیت تغییر تمام رنگ‌ها و پوسته‌ها با ذخیره‌سازی محلی.
-
-اکنون می‌توانید این فایل به‌روزرسانی شده را به مخزن GitHub منتقل نموده تا تغییرات بلافاصله روی سایت اعمال گردد.
